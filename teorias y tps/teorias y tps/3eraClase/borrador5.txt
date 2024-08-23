@@ -1,0 +1,93 @@
+   [HttpPut ("Asignar_Pedido")]
+    public ActionResult <string> AsignarPedido(int idCadete, int numPedido) {
+        var pedido = cadeteria.Pedidos.FirstOrDefault(p => p.Numero == numPedido);
+        var cadete = cadeteria.Cadetes.FirstOrDefault(p => p.Id == idCadete);
+        if (pedido != null) {
+            if (cadete != null) {
+                pedido.IdCadete = idCadete;
+                AccesoADatosPedidos.Guardar(cadeteria.Pedidos);
+                return (Ok(pedido));
+            }
+            return StatusCode(500,"No se pudo encontrar el cadete");
+        }
+        return StatusCode(500,"No se pudo encontrar el pedido");
+    } 
+
+
+
+----------------------------- 
+
+
+
+
+    public bool DarAltaPedido(string obsPedido, string nombreCliente, string direccionCliente, string telCliente, string datosReferenciaDireccionCliente){
+        List<Pedido> listaPedidos = accesoDatosPedidos.ObtenerListaPedidos();
+        int nroPedido = listaPedidos.Count + 1;
+        Pedido ped = new Pedido(nroPedido, obsPedido, nombreCliente, direccionCliente, telCliente, datosReferenciaDireccionCliente);
+        bool pedidoAgregado = AgregarPedidoALista(ped, listaPedidos);
+        return pedidoAgregado;
+    }
+    
+    public bool AgregarPedidoALista(Pedido ped, List<Pedido> listaPedidos){
+        bool agregado = false;
+
+        if(ped != null){
+            listaPedidos.Add(ped);
+            instance.accesoDatosPedidos.GuardarLista(listaPedidos);
+            agregado = true;
+        }
+
+        return agregado;
+    }
+
+    public bool AsignarCadeteAPedido(int idCadete, int nroPedido){
+        List<Pedido> listaPedidos = accesoDatosPedidos.ObtenerListaPedidos();
+        bool asignacionRealizada = false;
+        Cadete cad = listaCadetes.Find(x => x.Id == idCadete);
+
+        if(cad != null){
+            foreach(var p in listaPedidos){
+                if(p.Nro == nroPedido){
+                    p.VincularCadete(cad);
+                    asignacionRealizada = true;
+                    instance.accesoDatosPedidos.GuardarLista(listaPedidos);
+                    break;
+                }
+            }
+        }
+
+        return asignacionRealizada;
+    }
+
+    public bool CambiarEstadoPedido(int nroPedido, int nuevoEstado){
+        List<Pedido> listaPedidos = accesoDatosPedidos.ObtenerListaPedidos();
+        foreach (var p in listaPedidos){
+            if(p.Nro == nroPedido) {
+                p.CambiarEstado(nuevoEstado);
+                instance.accesoDatosPedidos.GuardarLista(listaPedidos);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+**********************************************************************************
+tp2 con id cadete
+
+ public void asignarPedidos(int idPedido, int idCadete)
+    {
+         var pedido = this.lisPedCadeteria
+        .FirstOrDefault(p => p.NroPedido == idPedido);
+    if (pedido != null)
+    {
+        var cadete = this.cadetes
+            .FirstOrDefault(c => c.Id == idCadete);
+        if (cadete != null)
+        {
+            cadete.asignarPedido(pedido);
+            Console.WriteLine($"Pedido nro {pedido.NroPedido} asignado al cadete id" +
+                $"{cadete.Id}: {cadete.Nombre}");
+        }
+    }
+    }

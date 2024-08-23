@@ -1,0 +1,113 @@
+ public bool AsignarCadeteAPedido(int id, int numero){//ok
+        bool var=false;
+        foreach (var pedido in listaPedidosCadeteria)
+        {
+            if (pedido.Nro==numero)
+            {
+                foreach (var cadete in listaDeCadetes)
+                {
+                    if (cadete.Id==id)
+                    {
+                        pedido.Cadete=cadete;
+                    }
+                }
+                var=true;
+            }
+        }
+        return(var);
+    }
+accediendo al cadete de la clase pedido ... rr2 
+*****************************************************
+  public string mostrarDatosClientes(){//ok
+        if (listaPedidosCadeteria!=null)
+        {
+            StringBuilder DatosClientes = new StringBuilder();
+            foreach (var pedido in ListaPedidosCadeteria) 
+            {
+                DatosClientes.AppendLine(pedido.VerDatosCliente());  
+                DatosClientes.AppendLine(pedido.VerDireccionCliente());  
+            }
+            return(DatosClientes.ToString());
+        }else
+        {
+            return("No hay pedidos -> no hay clientes :(");
+        }
+    }
+
+mostrando los datos mediante string gracias a stringbuilder.. 
+**************************************************************************************** 
+                        
+			PARA QUE USA EL USING ACA?? ?? NNZ 
+
+ public override List<Cadete> CargarCadetes(string rutaArchivo)
+    {
+        List<Cadete> cadetes = null;
+        if (ExisteArchivo(rutaArchivo))
+        {
+            using (var infoCadete = new StreamReader(rutaArchivo))
+            {
+                while (!infoCadete.EndOfStream)
+                {
+                    string linea = infoCadete.ReadLine();
+                    string[] datosCadete = linea.Split(';');
+
+                    int id = int.Parse(datosCadete[0]);
+                    string nombre = datosCadete[1];
+                    string direccion = datosCadete[2];
+                    long telefono = long.Parse(datosCadete[3]);
+                    cadetes.Add(new Cadete(id,nombre,direccion,telefono));     
+                }
+            }
+        }
+        return cadetes;
+    }
+************************************************************* 
+
+			CARGAR DESDE EL JSON 
+
+ public override List<Cadete> CargarCadetes(string rutaArchivo)
+    {
+        var cadetes = new List<Cadete>();
+
+        if(ExisteArchivo(rutaArchivo))
+        {
+            string TextoJson = File.ReadAllText(rutaArchivo);
+            cadetes = JsonSerializer.Deserialize<List<Cadete>>(TextoJson); 
+        }
+        return cadetes;
+    } 
+
+************************************************************************
+
+		asignacion de cadete al pedido
+  private Cadete BuscarCadeteXId(int idCadete)
+    {
+        return cadetes.Find(cadete => cadete.Id == idCadete);
+    }
+
+    public bool AsignarCadeteAPedido(int idCadete, int nroPedido)
+    {
+        bool pedidioAsignado = false;
+        var pedido = BuscarPedido(nroPedido);
+        if (pedido!= null)
+        {
+            pedido.Cadete = BuscarCadeteXId(idCadete);
+            pedidioAsignado = true;
+        }
+        return pedidioAsignado;
+    }
+***************************************************************** 
+  public int CantidadPedidosEntregados(int idCadete)
+    {
+        int cantPedidos = 0;
+
+        foreach (var pedido in pedidos)
+        {
+            if (pedido.Estado==EstadoPedido.Entregado && pedido.Cadete.Id == idCadete)
+            {
+                cantPedidos++;
+            }
+        }
+        return cantPedidos;
+    }
+******************************************************************

@@ -1,0 +1,15 @@
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\bin\Debug\net7.0\desarrollo-tp.exe
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\bin\Debug\net7.0\desarrollo-tp.deps.json
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\bin\Debug\net7.0\desarrollo-tp.runtimeconfig.json
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\bin\Debug\net7.0\desarrollo-tp.dll
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\bin\Debug\net7.0\desarrollo-tp.pdb
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.AssemblyInfoInputs.cache
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.AssemblyInfo.cs
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.csproj.CoreCompileInputs.cache
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.dll
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\refint\desarrollo-tp.dll
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.pdb
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.genruntimeconfig.cache
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\ref\desarrollo-tp.dll
+C:\Users\diazs\Desktop\taller-2024\teorias y tps\teorias y tps\1eraClase\desarrollo-tp\obj\Debug\net7.0\desarrollo-tp.sourcelink.json
