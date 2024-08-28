@@ -5,19 +5,35 @@
 public class Cadeteria{
     string Nombre;
     string Telefono;
-    List<Cadete> ListaCadetes;
+    List<Cadetes> ListaCadetes;
+    List<Pedidos> ListaPedidos;
 
 
-public Cadeteria(string nombre,string telefono)
+public Cadeteria(string nombre,string telefono,List<Cadetes> listaCadetesParametro,List<Pedidos> listaPedidosParametro)
 {
     Nombre=nombre;
     Telefono=telefono;
-    ListaCadetes =new List<Cadete>();
-
-
-    
+    ListaCadetes =listaCadetesParametro;  
+    ListaPedidos =listaPedidosParametro;  
 }
 
+public void AsignarPedido(string nombreCadete,int numeroPedido ){
+         foreach (Cadetes cadete in ListaCadetes)
+        {
+                if (cadete.Nombre == nombreCadete)
+            {
+              cadete.PedidosAsignados.Add(numeroPedido);
+                  foreach(Pedidos pedidoY in ListaPedidos){
+                    if(pedidoY.Nro==numeroPedido){
+                        pedidoY.Estado=Estado.enProceso;
+                    }
+                  }
 
+            }
+
+        }
+  Console.WriteLine($"Pedido: {numeroPedido} fue asignado al cadete: {nombreCadete}");
+
+}
 
 }

@@ -12,3 +12,6 @@ c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\refint\taller
 c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.pdb
 c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.genruntimeconfig.cache
 c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\ref\taller-001.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\Colorful.Console.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.csproj.AssemblyReference.cache
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.csproj.Up2Date
