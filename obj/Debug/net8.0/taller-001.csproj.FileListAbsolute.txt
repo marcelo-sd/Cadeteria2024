@@ -1,0 +1,17 @@
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\taller-001.exe
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\taller-001.deps.json
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\taller-001.runtimeconfig.json
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\taller-001.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\taller-001.pdb
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.AssemblyInfoInputs.cache
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.AssemblyInfo.cs
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.csproj.CoreCompileInputs.cache
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\refint\taller-001.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.pdb
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.genruntimeconfig.cache
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\ref\taller-001.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\bin\Debug\net8.0\Colorful.Console.dll
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.csproj.AssemblyReference.cache
+c:\Users\diazs\Desktop\taller-2024\tps\taller-001\obj\Debug\net8.0\taller-001.csproj.Up2Date
