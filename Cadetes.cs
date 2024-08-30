@@ -35,6 +35,7 @@ public void ShowListaDeCadete(List<Pedidos> lisDelCadete){
     foreach(var p in lisDelCadete){
         System.Console.WriteLine("Numero de pedido: "+p.Nro);
         System.Console.WriteLine("Observacion: "+p.Obs);
+        System.Console.WriteLine("Estado de pedidos: "+p.Estado);
         System.Console.WriteLine();
         }
 
