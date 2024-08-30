@@ -99,13 +99,39 @@ public bool AsignarPedidoAcadete(int idCadete, int idPedido)
     }
 
     cadeteEncontrado.ListaPedidos.Add(pedidoEncontrado);
+    pedidoEncontrado.Estado=Estado.enProceso;
     res = true;
     return res;
 }
 
 
 
+public bool ResignarPedidoAcadete(int idPedido, int idCadet, int cadAnterior)
+{
+    if (ListaPedidos == null || ListaCadetes == null)
+    {
+        return false;
+    }
 
+    var pedido = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
+    if (pedido == null)
+    {
+        return false;
+    }
+
+    var cadeteAnterior = ListaCadetes.FirstOrDefault(pe => pe.Id == cadAnterior);
+    var nuevoCadete = ListaCadetes.FirstOrDefault(c => c.Id == idCadet);
+
+    if (cadeteAnterior == null || nuevoCadete == null)
+    {
+        return false;
+    }
+
+    cadeteAnterior.ListaPedidos.Remove(pedido);
+    nuevoCadete.ListaPedidos.Add(pedido);
+
+    return true;
+}
 
 
 

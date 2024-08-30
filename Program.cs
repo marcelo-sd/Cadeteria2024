@@ -116,6 +116,38 @@ void CrearCadetes()
     view.AnadirCadete(nombreCa, direCa, telCa);
 }
 
+void ReasinarPed()
+{
+
+    System.Console.WriteLine("numero de Pedido: ");
+    Interfaz.ShowListPedidos();
+    System.Console.WriteLine();
+    int cadPar = int.Parse(ReadLine());
+    System.Console.WriteLine("numero del nuevo Catete: ");
+    Interfaz.ShowListCadetes();
+    int pedPar = int.Parse(ReadLine());
+    System.Console.WriteLine("numero del  Cadete anterior: ");
+    Interfaz.ShowListCadetes();
+    int cadAnterior = int.Parse(ReadLine());
+    bool respuesta = view.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
+    while (!respuesta)
+    {
+        System.Console.WriteLine("ingresa un id del nuevo cadete correcto");
+        Interfaz.ShowListCadetes();
+        cadPar = int.Parse(ReadLine());
+        System.Console.WriteLine("ingresa un id del pedido correcto");
+        Interfaz.ShowListPedidos();
+        pedPar = int.Parse(ReadLine());
+        System.Console.WriteLine("numero del  Cadete anterior correcto: ");
+        Interfaz.ShowListCadetes();
+        cadAnterior = int.Parse(ReadLine());
+        respuesta = view.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
+    }
+
+    System.Console.WriteLine("el pedido se asigno correctamente");
+    Interfaz.ShowCadete(cadPar);
+
+}
 
 
 
@@ -128,6 +160,8 @@ while (continuar)
     WriteLine("1_ Dar de alta un pedido");
     WriteLine("2_ asignar pedidos");
     WriteLine("3_ Crear cadetes");
+    WriteLine("3_ Cambiar de estado");
+    WriteLine("5_ Reasignar pedido");
     WriteLine("Selecciona una opción");
     string? opcion = ReadLine();
 
@@ -149,8 +183,11 @@ while (continuar)
 
             break;
         case "4":
-            WriteLine("Se seleccionó la opción 3");
+            WriteLine("Se seleccionó la opción 4");
             continuar = false;
+            break;
+        case "5":
+            ReasinarPed();
             break;
         default:
             WriteLine("Selecciona una opción correcta");
