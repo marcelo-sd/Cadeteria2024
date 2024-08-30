@@ -139,15 +139,15 @@ void ReasinarPed()
         System.Console.WriteLine("ID del  Cadete anterior correcto: ");
         Interfaz.ShowListCadetes();
         cadAnterior = int.Parse(ReadLine());
-       
+
         System.Console.WriteLine("ingresa un ID del pedido correcto:");
         Interfaz.ShowListPedidos();
         pedPar = int.Parse(ReadLine());
 
-         System.Console.WriteLine("ingresa un ID del nuevo cadete: ");
+        System.Console.WriteLine("ingresa un ID del nuevo cadete: ");
         Interfaz.ShowListCadetes();
         cadPar = int.Parse(ReadLine());
-        
+
         respuesta = view.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
     }
 
@@ -163,18 +163,38 @@ void CambiarEstado()
     Interfaz.ShowListPedidos();
     int idPedido = int.Parse(ReadLine());
     bool respuesta = view.CambiarEstadoPedido(idPedido);
-       while (!respuesta)
+    while (!respuesta)
     {
         System.Console.WriteLine("ingresa in id de pedido correcto");
         Interfaz.ShowListPedidos();
         idPedido = int.Parse(ReadLine());
         respuesta = view.CambiarEstadoPedido(idPedido);
     }
-Interfaz.ShowPedido(idPedido);
+    Interfaz.ShowPedido(idPedido);
 }
 
+//jornal cadete
+void JornalCadete()
+{
+    WriteLine("Ingrese el ID del cadete");
+    Interfaz.ShowListCadetes();
+    int idCadete = int.Parse(ReadLine());
+    var (res, cobro) = view.JornalCa(idCadete);
+    while (!res)
+    {
+        System.Console.WriteLine("ingresa in id de Cadete correcto");
+        Interfaz.ShowListCadetes();
+        idCadete = int.Parse(ReadLine());
+        (res, cobro) = view.JornalCa(idCadete);
+    }
+    System.Console.WriteLine("jornal del cadete: " + cobro);
 
+}
 
+//informe cadete
+void InformeCadete(){
+    view.InformeCadete();
+ }
 
 
 bool continuar = true;
@@ -186,7 +206,9 @@ while (continuar)
     WriteLine("3_ Crear cadetes");
     WriteLine("4_ Cambiar de estado");
     WriteLine("5_ Reasignar pedido");
-    WriteLine("6_ Salir");
+    WriteLine("6_ Jornal cadete");
+    WriteLine("7_ Jornal cadete");
+    WriteLine("8_ Salir");
     WriteLine("Selecciona una opción");
     string? opcion = ReadLine();
 
@@ -214,6 +236,12 @@ while (continuar)
             ReasinarPed();
             break;
         case "6":
+            JornalCadete();
+            break;
+        case "7":
+        InformeCadete();
+            break;
+        case "8":
             System.Console.WriteLine("bye, bye");
             continuar = false;
 

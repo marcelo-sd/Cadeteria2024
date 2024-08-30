@@ -1,3 +1,4 @@
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Security.Cryptography;
 
@@ -99,6 +100,7 @@ public class Interfaz
             return res;
         }
 
+        
         cadeteEncontrado.ListaPedidos.Add(pedidoEncontrado);
         pedidoEncontrado.Estado = Estado.enProceso;
         res = true;
@@ -161,8 +163,33 @@ public class Interfaz
         return res;
     }
 
+//jornal de cada cadete
+public (bool,double) JornalCa(int idCad){
+    bool res =true;
+    cadete=ListaCadetes.FirstOrDefault(ca=> ca.Id==idCad);
+      if (cadete == null)
+        {
+            System.Console.WriteLine("Error: cadete no encontrado.");
+            return (false,0);
+        }
 
 
+
+    double cobro = cadete.JornalACobrar(cadete.ListaPedidos);
+   return (res,cobro);
+
+}
+
+//informe cadete
+public void InformeCadete(){
+
+foreach(var ca in ListaCadetes){
+    System.Console.WriteLine("Nombre cadete"+ca.Nombre);
+    cadete.CantidadEnvios(ca);
+    cadete.MontoGanado(ca);
+}
+System.Console.WriteLine("Promedio: "+(ListaPedidos.Count()/ListaCadetes.Count()*100));
+}
 
 
 
@@ -176,6 +203,7 @@ public class Interfaz
             System.Console.WriteLine("id del pedido: " + i.Nro);
             System.Console.WriteLine("Observacion: " + i.Obs);
             System.Console.WriteLine("Nombre del Cliente: " + i.Cliente.Nombre);
+            System.Console.WriteLine("Estado: "+i.Estado);
             bool cadeteAsignado = false;
             foreach (var c in ListaCadetes)
             {
