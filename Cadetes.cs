@@ -1,49 +1,48 @@
 
 
 
-public class Cadetes{
-    private static int contadorId = 0;
-    int Id;
-   public string Nombre;
+public class Cadetes
+{
+   
+    public int Id = 0;
+    public string Nombre;
     string Direccion;
-    string Telefono;
+    public string Telefono;
 
-    List<Pedidos> ListaPedidos;
-    public List<int> PedidosAsignados;
-
+   public List<Pedidos>? ListaPedidos;
 
 
-public Cadetes(string nombre,string direccion,string telefono )
-{
- Id = ++contadorId;
-Nombre=nombre;
-Direccion=direccion;
-Telefono=telefono;
-ListaPedidos=new List<Pedidos>();
 
-    
-}
+    public Cadetes(string nombre, string direccion, string telefono, List<Cadetes> lisCadetes)
+    {
+        if (lisCadetes == null || lisCadetes.Count == 0)
+        {
+            Id = 1;
+        }
+        else
+        {
+            Id = lisCadetes.Count + 1;
+        }
+        Nombre = nombre;
+        Direccion = direccion;
+        Telefono = telefono;
+        ListaPedidos = new List<Pedidos>();
 
-
-public void DarDeAltaPedido()
-{
-    Pedidos pedido=new Pedidos("es una obsevacion","jose luis","lujan 789","23484970","casa roja y linda");
-    ListaPedidos.Add(pedido);
-    foreach(Pedidos orden in ListaPedidos ){
-        Console.WriteLine($"idPedidos: {orden.Nro}");
-        Console.WriteLine($"Observacion: {orden.Obs}");
-        Console.WriteLine($"Nombre cliente: {orden.Cliente.Nombre}");
-        Console.WriteLine($"telefono Cliente: {orden.Cliente.Telefono}");
-        Console.WriteLine();
     }
 
+//es para mostrar la lista de pedidos asiganados a cada cadete
+public void ShowListaDeCadete(List<Pedidos> lisDelCadete){
+    foreach(var p in lisDelCadete){
+        System.Console.WriteLine("Numero de pedido: "+p.Nro);
+        System.Console.WriteLine("Observacion: "+p.Obs);
+        System.Console.WriteLine();
+        }
 
 }
 
 
+    public void JornalACobrar()
+    {
 
-
-public void JornalACobrar(){
-
-}
+    }
 }

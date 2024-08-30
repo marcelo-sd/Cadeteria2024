@@ -17,7 +17,7 @@ public Cadeteria(string nombre,string telefono,List<Cadetes> listaCadetesParamet
     ListaPedidos =listaPedidosParametro;  
 }
 
-public void AsignarPedido(string nombreCadete,int numeroPedido ){
+/* public void AsignarPedido(string nombreCadete,int numeroPedido ){
          foreach (Cadetes cadete in ListaCadetes)
         {
                 if (cadete.Nombre == nombreCadete)
@@ -35,5 +35,24 @@ public void AsignarPedido(string nombreCadete,int numeroPedido ){
   Console.WriteLine($"Pedido: {numeroPedido} fue asignado al cadete: {nombreCadete}");
 
 }
+ */
+/* public void ReasignarCadete(Cadetes anterior, Cadetes actual, int numeroPedido){
+
+ foreach (Cadetes cadete in ListaCadetes)
+        {
+                if (cadete.Nombre == anterior.Nombre)
+            {
+              cadete.PedidosAsignados.Remove(numeroPedido);
+                actual.PedidosAsignados.Add(numeroPedido);
+
+            }
+
+
+        }
+          Console.WriteLine($"Pedido: {numeroPedido} fue REASIGNADO al cadete: {actual.Nombre}");
+
+}
+ */
+
 
 }

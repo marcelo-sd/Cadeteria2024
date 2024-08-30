@@ -18,8 +18,12 @@ public class Clientes
       Telefono = telefono;
       DatosReferenciaDrieccion = datosRef;
       //GuardarCliente(nombre,direccion,telefono,datosRef);
-
    }
+   public Clientes()
+   {
+      
+   }
+   
 
 
 
