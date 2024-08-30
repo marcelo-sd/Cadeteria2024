@@ -1,5 +1,8 @@
 # Cadeteria2024
+
 app console to create and hamdle orders.
+
+#tp=001
 A) Debe agregar los métodos faltantes a las clases en función de sus respuestas del
 punto anterior.
 B) Los datos de la cadetería y de sus cadetes deberán ser cargados
@@ -11,6 +14,6 @@ b) asignarlos a cadetes
 c) cambiarlos de estado
 d) reasignar el pedido a otro cadete.
 D) Mostrar un informe de pedidos al finalizar la jornada que incluya el monto ganado
-y la cantidad de envíos de cada cadete y el total. Muestre también la cantidad de
-envíos promedio por cadete.
-Nota 1: Utilice listas para guardar y mani
+y la cantidad de envíos de cada cadete y el total. Muestre también la cantidad de envíos promedio por cadete.
+
+
