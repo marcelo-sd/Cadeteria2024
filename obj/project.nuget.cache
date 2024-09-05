@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fIeNpNR5vB8=",
+  "dgSpecHash": "oO+cR2fjRO8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\diazs\\Desktop\\taller-2024\\tps\\taller-001\\taller-001.csproj",
+  "projectFilePath": "C:\\Users\\diazs\\Desktop\\taller-2024\\taller-2024-tps\\taller-001.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\diazs\\.nuget\\packages\\colorful.console\\1.2.15\\colorful.console.1.2.15.nupkg.sha512",
     "C:\\Users\\diazs\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",

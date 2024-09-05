@@ -1,3 +1,5 @@
+using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Security.Cryptography;
 
 public class Interfaz
@@ -62,81 +64,132 @@ public class Interfaz
 
     }
 
-public bool AsignarPedidoAcadete(int idCadete, int idPedido)
-{
-    bool res = false;
-    Cadetes cadeteEncontrado = null;
-    Pedidos pedidoEncontrado = null;
-
-    foreach (var c in ListaCadetes)
+    public bool AsignarPedidoAcadete(int idCadete, int idPedido)
     {
-        if (c.Id == idCadete)
+        bool res = false;
+        Cadetes cadeteEncontrado = null;
+        Pedidos pedidoEncontrado = null;
+
+        foreach (var c in ListaCadetes)
         {
-            cadeteEncontrado = c;
-            break;
+            if (c.Id == idCadete)
+            {
+                cadeteEncontrado = c;
+                break;
+            }
         }
-    }
 
-    if (cadeteEncontrado == null)
-    {
-        System.Console.WriteLine("Cadete no encontrado");
+        if (cadeteEncontrado == null)
+        {
+            System.Console.WriteLine("Cadete no encontrado");
+            return res;
+        }
+
+        foreach (var p in ListaPedidos)
+        {
+            if (p.Nro == idPedido)
+            {
+                pedidoEncontrado = p;
+                break;
+            }
+        }
+
+        if (pedidoEncontrado == null)
+        {
+            System.Console.WriteLine("Pedido no encontrado");
+            return res;
+        }
+
+        
+        cadeteEncontrado.ListaPedidos.Add(pedidoEncontrado);
+        pedidoEncontrado.Estado = Estado.enProceso;
+        res = true;
         return res;
     }
 
-    foreach (var p in ListaPedidos)
+
+    //reasignar cadetes
+    public bool ResignarPedidoAcadete(int idPedido, int idCadet, int cadAnterior)
     {
-        if (p.Nro == idPedido)
+        if (ListaPedidos == null || ListaCadetes == null || !ListaPedidos.Any() || !ListaCadetes.Any())
         {
-            pedidoEncontrado = p;
-            break;
+            System.Console.WriteLine("Error: Lista de pedidos o cadetes está vacía o no inicializada.");
+            return false;
         }
+
+        var pedido = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        if (pedido == null)
+        {
+            System.Console.WriteLine("Error: Pedido no encontrado.");
+            return false;
+        }
+
+        var cadeteAnterior = ListaCadetes.FirstOrDefault(pe => pe.Id == cadAnterior);
+        var nuevoCadete = ListaCadetes.FirstOrDefault(c => c.Id == idCadet);
+
+        if (cadeteAnterior == null)
+        {
+            System.Console.WriteLine("Error: Cadete anterior no encontrado.");
+            return false;
+        }
+
+        if (nuevoCadete == null)
+        {
+            System.Console.WriteLine("Error: Nuevo cadete no encontrado.");
+            return false;
+        }
+
+        cadeteAnterior.ListaPedidos.Remove(pedido);
+        nuevoCadete.ListaPedidos.Add(pedido);
+        System.Console.WriteLine("El pedido ha sido reasignado correctamente.");
+
+        return true;
     }
 
-    if (pedidoEncontrado == null)
+    //cambiar estado de pedido
+    public bool CambiarEstadoPedido(int idPedido)
     {
-        System.Console.WriteLine("Pedido no encontrado");
+        bool res = false;
+        foreach (var p in ListaPedidos)
+        {
+            if (p.Nro == idPedido)
+            {
+                p.Estado = Estado.terminado;
+                System.Console.WriteLine("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
+                res = true;
+                break; // Salimos del bucle ya que encontramos el pedido
+            }
+        }
         return res;
     }
 
-    cadeteEncontrado.ListaPedidos.Add(pedidoEncontrado);
-    pedidoEncontrado.Estado=Estado.enProceso;
-    res = true;
-    return res;
+//jornal de cada cadete
+public (bool,double) JornalCa(int idCad){
+    bool res =true;
+    cadete=ListaCadetes.FirstOrDefault(ca=> ca.Id==idCad);
+      if (cadete == null)
+        {
+            System.Console.WriteLine("Error: cadete no encontrado.");
+            return (false,0);
+        }
+
+
+
+    double cobro = cadete.JornalACobrar(cadete.ListaPedidos);
+   return (res,cobro);
+
 }
 
+//informe cadete
+public void InformeCadete(){
 
-
-public bool ResignarPedidoAcadete(int idPedido, int idCadet, int cadAnterior)
-{
-    if (ListaPedidos == null || ListaCadetes == null)
-    {
-        return false;
-    }
-
-    var pedido = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
-    if (pedido == null)
-    {
-        return false;
-    }
-
-    var cadeteAnterior = ListaCadetes.FirstOrDefault(pe => pe.Id == cadAnterior);
-    var nuevoCadete = ListaCadetes.FirstOrDefault(c => c.Id == idCadet);
-
-    if (cadeteAnterior == null || nuevoCadete == null)
-    {
-        return false;
-    }
-
-    cadeteAnterior.ListaPedidos.Remove(pedido);
-    nuevoCadete.ListaPedidos.Add(pedido);
-
-    return true;
+foreach(var ca in ListaCadetes){
+    System.Console.WriteLine("Nombre cadete"+ca.Nombre);
+    cadete.CantidadEnvios(ca);
+    cadete.MontoGanado(ca);
 }
-
-
-
-
-
+System.Console.WriteLine("Promedio: "+(ListaPedidos.Count()/ListaCadetes.Count()*100));
+}
 
 
 
@@ -144,37 +197,123 @@ public bool ResignarPedidoAcadete(int idPedido, int idCadet, int cadAnterior)
     public static void ShowListPedidos()
     {
         System.Console.WriteLine();
-        System.Console.WriteLine("lista de pedidos");
-        System.Console.WriteLine();
+        System.Console.WriteLine("Lista de pedidos Actual: ");
         foreach (var i in ListaPedidos)
         {
-            System.Console.WriteLine(i.Nro);
-            System.Console.WriteLine(i.Obs);
-            System.Console.WriteLine(i.Cliente.Nombre);
+            System.Console.WriteLine("id del pedido: " + i.Nro);
+            System.Console.WriteLine("Observacion: " + i.Obs);
+            System.Console.WriteLine("Nombre del Cliente: " + i.Cliente.Nombre);
+            System.Console.WriteLine("Estado: "+i.Estado);
+            bool cadeteAsignado = false;
+            foreach (var c in ListaCadetes)
+            {
+                if (c.ListaPedidos != null && c.ListaPedidos.Contains(i))
+                {
+                    System.Console.WriteLine($"Cadete asignado: {c.Nombre}");
+                    cadeteAsignado = true;
+                    break;
+
+                }
+
+            }
+            if (!cadeteAsignado)
+            {
+                System.Console.WriteLine("Cadete asignado: NULL");
+            }
             System.Console.WriteLine();
         }
     }
+
     public static void ShowListCadetes()
     {
 
-        System.Console.WriteLine("esta es la lista de cadetes actual");
+        System.Console.WriteLine("Esta es la lista de cadetes actual:");
         foreach (var i in ListaCadetes)
         {
-            System.Console.WriteLine("id: "+i.Id);
+            System.Console.WriteLine("id Del Cadete: " + i.Id);
             System.Console.WriteLine("nombre: " + i.Nombre);
             System.Console.WriteLine("Telefono: " + i.Telefono);
+            if (i.ListaPedidos != null)
+            {
+                foreach (var p in i.ListaPedidos)
+                {
+                    System.Console.WriteLine("Esta es la lista de Pedidos del cadete: ");
+                    System.Console.WriteLine("id de pedido: " + p.Nro);
+                    System.Console.WriteLine("nombre del cliente: " + p.Cliente.Nombre);
+                    System.Console.WriteLine("Observacion: " + p.Obs);
+                    System.Console.WriteLine("Estado: " + p.Estado);
+
+                }
+            }
+            System.Console.WriteLine();
         }
     }
-    public static void ShowCadete(int idCadete){
+    // esta es pra que muestre los cadetes que no estan dentro del parametro Cad(es el cadete anterior)
+    public static void ShowListCadetes(int cadAnterior)
+    {
+        System.Console.WriteLine("Esta es la lista de cadetes actual sin el cadete anterior seleccionado");
+        foreach (var i in ListaCadetes)
+        {
+            if (i.Id != cadAnterior)
+            {
+                System.Console.WriteLine("id Del Cadete: " + i.Id);
+                System.Console.WriteLine("nombre: " + i.Nombre);
+                System.Console.WriteLine("Telefono: " + i.Telefono);
+                if (i.ListaPedidos != null)
+                {
+                    foreach (var p in i.ListaPedidos)
+                    {
+                        System.Console.WriteLine("Esta es la lista de pedidos asignados al cadete:");
+                        System.Console.WriteLine("id de pedido: " + p.Nro);
+                        System.Console.WriteLine("nombre del cliente: " + p.Cliente.Nombre);
+                        System.Console.WriteLine("Observacion: " + p.Obs);
+                        System.Console.WriteLine("Estado: " + p.Estado);
+
+                    }
+                }
+
+            }
+
+        }
+    }
+
+
+
+
+    //mostrar cadete solo
+    public static void ShowCadete(int idCadete)
+    {
         System.Console.WriteLine("cadete:");
-        foreach(var c in ListaCadetes){
-            if(c.Id==idCadete){
-                System.Console.WriteLine(c.Nombre);
+        foreach (var c in ListaCadetes)
+        {
+            if (c.Id == idCadete)
+            {
+                System.Console.WriteLine("ID: " + c.Id);
+                System.Console.WriteLine("nombre de Cadete: " + c.Nombre);
 
                 c.ShowListaDeCadete(c.ListaPedidos);
             }
         }
     }
+    //mostrar pedido solo 
+
+    public static void ShowPedido(int idPedido)
+    {
+        System.Console.WriteLine("Pedido:");
+        foreach (var p in ListaPedidos)
+        {
+            if (p.Nro == idPedido)
+            {
+
+                System.Console.WriteLine("Pedido numero: " + p.Nro);
+                System.Console.WriteLine("Observacion: " + p.Obs);
+                System.Console.WriteLine("Estado de pedido: " + p.Estado);
+                System.Console.WriteLine("cliente: " + p.Cliente.Nombre);
+
+            }
+        }
+    }
+
 
 
 }
