@@ -61,11 +61,15 @@ public class Cadetes
             pedidosRealizados = ca.ListaPedidos.Count(p => p.Estado == Estado.terminado);
             System.Console.WriteLine("cantidad de pedidos reaizados: " + pedidosRealizados);
         }
+
+        System.Console.WriteLine("cadete: " + ca.Nombre);
         System.Console.WriteLine("este cadete no tiene una lista de pedidos vacios");
     }
 
-    public void MontoGanado(Cadetes ca){
-       System.Console.WriteLine("monto ganado: "+(ca.ListaPedidos.Count()*500));
+    public void MontoGanado(Cadetes ca)
+    {
+         int peRealizados = ca.ListaPedidos.Count(p => p.Estado == Estado.terminado);
+        System.Console.WriteLine("monto ganado: " + (peRealizados * 500));
     }
-    
+
 }

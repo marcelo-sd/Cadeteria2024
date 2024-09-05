@@ -184,7 +184,7 @@ public (bool,double) JornalCa(int idCad){
 public void InformeCadete(){
 
 foreach(var ca in ListaCadetes){
-    System.Console.WriteLine("Nombre cadete"+ca.Nombre);
+    System.Console.WriteLine("Nombre cadete: "+ca.Nombre);
     cadete.CantidadEnvios(ca);
     cadete.MontoGanado(ca);
 }
@@ -288,7 +288,7 @@ System.Console.WriteLine("Promedio: "+(ListaPedidos.Count()/ListaCadetes.Count()
         {
             if (c.Id == idCadete)
             {
-                System.Console.WriteLine("ID: " + c.Id);
+                System.Console.WriteLine("ID del Cadete: " + c.Id);
                 System.Console.WriteLine("nombre de Cadete: " + c.Nombre);
 
                 c.ShowListaDeCadete(c.ListaPedidos);

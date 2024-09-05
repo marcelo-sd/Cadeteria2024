@@ -151,7 +151,8 @@ void ReasinarPed()
         respuesta = view.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
     }
 
-    System.Console.WriteLine("el pedido se asigno correctamente");
+    System.Console.WriteLine("el pedido se REasigno correctamente");
+
     Interfaz.ShowCadete(cadPar);
 
 }
@@ -207,7 +208,7 @@ while (continuar)
     WriteLine("4_ Cambiar de estado");
     WriteLine("5_ Reasignar pedido");
     WriteLine("6_ Jornal cadete");
-    WriteLine("7_ Jornal cadete");
+    WriteLine("7_ Informe cadete");
     WriteLine("8_ Salir");
     WriteLine("Selecciona una opción");
     string? opcion = ReadLine();
