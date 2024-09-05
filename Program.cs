@@ -207,7 +207,7 @@ while (continuar)
     WriteLine("4_ Cambiar de estado");
     WriteLine("5_ Reasignar pedido");
     WriteLine("6_ Jornal cadete");
-    WriteLine("7_ Jornal cadete");
+    WriteLine("7_ Informe cadete");
     WriteLine("8_ Salir");
     WriteLine("Selecciona una opción");
     string? opcion = ReadLine();
