@@ -9,7 +9,6 @@ public class Cadetes
     string Direccion;
     public string Telefono;
 
-    public List<Pedidos>? ListaPedidos;
 
 
 
@@ -26,23 +25,10 @@ public class Cadetes
         Nombre = nombre;
         Direccion = direccion;
         Telefono = telefono;
-        ListaPedidos = new List<Pedidos>();
 
     }
 
-    //es para mostrar la lista de pedidos asiganados a cada cadete
-    public void ShowListaDeCadete(List<Pedidos> lisDelCadete)
-    {
-        foreach (var p in lisDelCadete)
-        {
-            System.Console.WriteLine("Numero de pedido: " + p.Nro);
-            System.Console.WriteLine("Nombre cliente: " + p.Cliente.Nombre);
-            System.Console.WriteLine("Observacion: " + p.Obs);
-            System.Console.WriteLine("Estado de pedidos: " + p.Estado);
-            System.Console.WriteLine();
-        }
-
-    }
+    
 
 
     public double JornalACobrar(List<Pedidos> listaPedidosPara)
@@ -53,7 +39,7 @@ public class Cadetes
     }
 
 
-    public void CantidadEnvios(Cadetes ca)
+/*     public void CantidadEnvios(Cadetes ca)
     {
         int pedidosRealizados = 0;
         if (ca.ListaPedidos != null && ca.ListaPedidos.Any())
@@ -66,6 +52,6 @@ public class Cadetes
 
     public void MontoGanado(Cadetes ca){
        System.Console.WriteLine("monto ganado: "+(ca.ListaPedidos.Count()*500));
-    }
+    } */
     
 }

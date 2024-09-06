@@ -18,34 +18,39 @@ ForegroundColor = ConsoleColor.Green; // Cambia el color del texto a rojo
 
 Interfaz view = new Interfaz();
 
-void GestionarRespuesta(int res)
+
+Cadeteria cadeteria=new Cadeteria();
+
+//aqui creamos pedidos y creamos clientes
+//recordamos que como pedidos y clientes tienen una relacion de composicion solo se va a crear un cliente cuando se cree primero un  pedido
+void GestionarRespuestaCrearPedido(int res)
 {
     if (res == 1)
     {
-        WriteLine("dime una observación del pedido: ");
+        WriteLine("Dime una observación del pedido: ");
         string observacion = ReadLine();
         WriteLine();
-        WriteLine("nombre del cliente registrado: ");
+        WriteLine("Nombre del cliente registrado: ");
         string nombreCli = ReadLine();
 
-        var (listaPedi, resultado) = view.DarDeAltaPedido(observacion, nombreCli);
+        var (listaPedi, resultado) = cadeteria.DarDeAltaPedido(observacion, nombreCli);
         while (!resultado)
         {
-            System.Console.WriteLine("ingresa un nombre de cliente correcto");
+            System.Console.WriteLine("Ingresa un nombre de cliente correcto");
             nombreCli = ReadLine();
-            (listaPedi, resultado) = view.DarDeAltaPedido(observacion, nombreCli);
+            (listaPedi, resultado) = cadeteria.DarDeAltaPedido(observacion, nombreCli);
         }
 
         foreach (Pedidos ped in listaPedi)
         {
             WriteLine();
-            WriteLine("numero de pedido: " + ped.Nro);
-            WriteLine("nombre cliente: " + ped.Cliente.Nombre);
+            WriteLine("Numero de pedido: " + ped.Nro);
+            WriteLine("Nombre cliente: " + ped.Cliente.Nombre);
         }
     }
     else
     {
-        WriteLine("dime una observación del pedido: ");
+        WriteLine("Dime una observación del pedido: ");
         string observacion = ReadLine();
         WriteLine();
         WriteLine("nombre del cliente nuevo: ");
@@ -61,7 +66,8 @@ void GestionarRespuesta(int res)
         string datoDeREferencia = ReadLine();
         WriteLine();
 
-        List<Pedidos> listaPedi = view.DarDeAltaPedido(observacion, nombreCli, direccionCli, telefonocli, datoDeREferencia);
+        List<Pedidos> listaPedi = cadeteria.DarDeAltaPedido(observacion, nombreCli, direccionCli, telefonocli, datoDeREferencia);
+
         foreach (Pedidos ped in listaPedi)
         {
             WriteLine();
@@ -73,22 +79,22 @@ void GestionarRespuesta(int res)
 }
 
 
-// asignar pedidos a cadetes
 
+// asignar pedidos a cadetes
 void AsignarPedidos()
 {
-    System.Console.WriteLine("ID de Cadete: ");
+    System.Console.WriteLine("ID del Cadete: ");
 
-    Interfaz.ShowListCadetes();
+    Cadeteria.ShowListCadetes();
     System.Console.WriteLine();
     int cadPar = int.Parse(ReadLine());
     System.Console.WriteLine("ID de Pedidos: ");
-    Interfaz.ShowListPedidos();
+    Cadeteria.ShowListPedidos();
     int pedPar = int.Parse(ReadLine());
-    bool respuesta = view.AsignarPedidoAcadete(cadPar, pedPar);
+    bool respuesta = cadeteria.AsignarCadeteAPedido(cadPar, pedPar);
     while (!respuesta)
     {
-        System.Console.WriteLine("ingresa un id de cadete correcto");
+        System.Console.WriteLine("Ingresa un id de cadete correcto");
         Interfaz.ShowListCadetes();
         cadPar = int.Parse(ReadLine());
         System.Console.WriteLine("ingresea un id del pedido correcto");
@@ -98,23 +104,25 @@ void AsignarPedidos()
     }
 
 
-    System.Console.WriteLine("el pedido se asigno correctamente");
-    Interfaz.ShowCadete(cadPar);
+    System.Console.WriteLine("El pedido se asigno correctamente");
+    Cadeteria.ShowCadete(cadPar);
 
 
 
 }
+
+//crear cadetes
 
 void CrearCadetes()
 {
     System.Console.WriteLine("ingrese el nombre del cadete");
 
     string nombreCa = ReadLine();
-    System.Console.WriteLine("Ingrese la direccion del cadete");
+    System.Console.WriteLine("Ingrese la direccion del cadete ");
     string direCa = ReadLine();
-    System.Console.WriteLine("ingrese el telefono");
+    System.Console.WriteLine("ingrese el telefono ");
     string telCa = ReadLine();
-    view.AnadirCadete(nombreCa, direCa, telCa);
+    cadeteria.AnadirCadete(nombreCa, direCa, telCa);
 }
 
 //reasignar cadetes
@@ -217,7 +225,7 @@ while (continuar)
         case "1":
             WriteLine("es cliente registrado? 1_SI 2_NO");
             int respuesta = int.Parse(ReadLine());
-            GestionarRespuesta(respuesta);
+            GestionarRespuestaCrearPedido(respuesta);
 
             break;
         case "2":
@@ -251,6 +259,3 @@ while (continuar)
             break;
     }
 }
-
-
-
