@@ -27,7 +27,7 @@ public class Pedidos
         Estado = Estado.comenzado;
         Cliente = new Clientes(nombreCli, direccionCli, telefonoCli, datosRefCli);
         ListaClientes.Add(Cliente);
-        ShowList();
+       // ShowList();
     }
 
     public Pedidos(string obs, string parNombre, List<Pedidos> listaPara)
@@ -65,7 +65,6 @@ public class Pedidos
     {
         System.Console.WriteLine("");
         Console.WriteLine("Esta es la lista de clientes actual: ");
-        System.Console.WriteLine();
         foreach (Clientes c in ListaClientes)
         {
             Console.WriteLine(c.Nombre);

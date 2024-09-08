@@ -35,16 +35,29 @@ public class Cadeteria
 
 
 
-
-    public void JornalCobrar(int idcadete)
+    //jornal de cada cadete
+    public (bool, double) JornalCobrar(int idCadete)
     {
-        System.Console.WriteLine("este es el metodo jornal a cobrar");
+        bool res = true;
+        double cobro = 0;
+
+        var contador = ListaPedidos.Count(p => p.Cadete != null && p.Cadete.Id == idCadete && p.Estado == Estado.terminado);
+        if (contador == null)
+        {
+            res = false;
+            return (res, cobro);
+
+        }
+        cobro = contador * 500;
+
+        return (res, cobro);
 
     }
 
 
 
 
+    /* System.Console.WriteLine("Promedio: "+(ListaPedidos.Count()/ListaCadetes.Count()*100)); */
 
 
 
@@ -58,6 +71,7 @@ public class Cadeteria
         return ListaPedidos;
 
     }
+
 
 
     //si el cliente esta registrado anteriormente
@@ -103,19 +117,76 @@ public class Cadeteria
             System.Console.WriteLine("cadete no encontrado");
             return false;
         }
+        pedidoEncontrado.Cadete = cadeteEncontrado;
         return true;
     }
+
 
     //añadir cadete
     public void AnadirCadete(string nombreCa, string direCa, string telCa)
 
     {
-
         cadete = new Cadetes(nombreCa, direCa, telCa, ListaCadetes);
         ListaCadetes.Add(cadete);
         ShowListCadetes();
-
     }
+
+
+    //reasignar cadetes
+    public bool ResignarPedidoAcadete(int idPedido, int idCadet, int cadAnterior)
+    {
+        if (ListaPedidos == null || ListaCadetes == null || !ListaPedidos.Any() || !ListaCadetes.Any())
+        {
+            System.Console.WriteLine("Error: Lista de pedidos o cadetes está vacía o no inicializada.");
+            return false;
+        }
+
+        var pedido = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        if (pedido == null)
+        {
+            System.Console.WriteLine("Error: Pedido no encontrado.");
+            return false;
+        }
+
+        var cadeteAnterior = ListaCadetes.FirstOrDefault(pe => pe.Id == cadAnterior);
+        var nuevoCadete = ListaCadetes.FirstOrDefault(c => c.Id == idCadet);
+
+        if (cadeteAnterior == null)
+        {
+            System.Console.WriteLine("Error: Cadete anterior no encontrado.");
+            return false;
+        }
+
+        if (nuevoCadete == null)
+        {
+            System.Console.WriteLine("Error: Nuevo cadete no encontrado.");
+            return false;
+        }
+
+        pedido.Cadete = nuevoCadete;
+
+        System.Console.WriteLine("El pedido ha sido reasignado correctamente.");
+
+        return true;
+    }
+
+    //cambiar estado de pedido
+    public bool CambiarEstadoPedido(int idPedido)
+    {
+        bool res = false;
+        foreach (var p in ListaPedidos)
+        {
+            if (p.Nro == idPedido)
+            {
+                p.Estado = Estado.terminado;
+                System.Console.WriteLine("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
+                res = true;
+                break; // Salimos del bucle ya que encontramos el pedido
+            }
+        }
+        return res;
+    }
+
 
 
 
@@ -141,7 +212,14 @@ public class Cadeteria
             System.Console.WriteLine("Observacion: " + i.Obs);
             System.Console.WriteLine("Nombre del Cliente: " + i.Cliente.Nombre);
 
-            System.Console.WriteLine("Cadete asignado: " + (i.Cadete.Nombre ?? "null"));
+            if (i.Cadete != null)
+            {
+                Console.WriteLine("Cadete asignado: " + i.Cadete.Nombre);
+            }
+            else
+            {
+                Console.WriteLine("Cadete asignado: null");
+            }
 
             System.Console.WriteLine("Estado: " + i.Estado);
 
@@ -226,7 +304,7 @@ public class Cadeteria
                 System.Console.WriteLine("Pedidos asignados a este cadete:");
                 foreach (var pedido in pedidosDelCadete)
                 {
-                    System.Console.WriteLine($"Nro:  {pedido.Nro}, Obs:  {pedido.Obs}");
+                    System.Console.WriteLine($"ID del pedido:  {pedido.Nro}, Obs:  {pedido.Obs}");
                 }
 
                 System.Console.WriteLine();
@@ -255,6 +333,32 @@ public class Cadeteria
             }
         }
     }
+
+
+
+    //informe cadete
+    public void InformeCadete()
+    {
+        var pedidosConCadete = ListaPedidos.Where(p => p.Cadete != null).ToList();
+        foreach (var pe in pedidosConCadete)
+        {
+
+            System.Console.WriteLine("Nombre cadete" + pe.Cadete.Nombre);
+
+            int cantidadEnvios = ListaPedidos.Count(p => p.Cadete != null && p.Cadete.Id == pe.Cadete.Id && p.Estado == Estado.terminado);
+            Console.WriteLine($"Cantidad de envíos: {cantidadEnvios}");
+
+            int montoGanado = cantidadEnvios * 500;
+            Console.WriteLine($"Monto Ganado: {montoGanado}");
+
+            double promedioEnvios = (double)cantidadEnvios / pedidosConCadete.Count(p => p.Cadete.Id == pe.Cadete.Id);
+            Console.WriteLine($"Promedio de pedidos realizados por este cadete: {promedioEnvios:F2}");
+
+
+
+        }
+    }
+
 
 
 

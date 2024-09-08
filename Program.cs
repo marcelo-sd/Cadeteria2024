@@ -16,7 +16,6 @@ ForegroundColor = ConsoleColor.Green; // Cambia el color del texto a rojo
 
 
 
-Interfaz view = new Interfaz();
 
 
 Cadeteria cadeteria=new Cadeteria();
@@ -43,9 +42,9 @@ void GestionarRespuestaCrearPedido(int res)
 
         foreach (Pedidos ped in listaPedi)
         {
-            WriteLine();
             WriteLine("Numero de pedido: " + ped.Nro);
             WriteLine("Nombre cliente: " + ped.Cliente.Nombre);
+            System.Console.WriteLine();
         }
     }
     else
@@ -70,7 +69,6 @@ void GestionarRespuestaCrearPedido(int res)
 
         foreach (Pedidos ped in listaPedi)
         {
-            WriteLine();
             WriteLine("numero de pedido: " + ped.Nro);
             WriteLine("nombre cliente: " + ped.Cliente.Nombre);
             WriteLine();
@@ -95,12 +93,12 @@ void AsignarPedidos()
     while (!respuesta)
     {
         System.Console.WriteLine("Ingresa un id de cadete correcto");
-        Interfaz.ShowListCadetes();
+        Cadeteria.ShowListCadetes();
         cadPar = int.Parse(ReadLine());
         System.Console.WriteLine("ingresea un id del pedido correcto");
-        Interfaz.ShowListPedidos();
+        Cadeteria.ShowListPedidos();
         pedPar = int.Parse(ReadLine());
-        respuesta = view.AsignarPedidoAcadete(cadPar, pedPar);
+        respuesta =cadeteria.AsignarCadeteAPedido(cadPar, pedPar);
     }
 
 
@@ -125,83 +123,86 @@ void CrearCadetes()
     cadeteria.AnadirCadete(nombreCa, direCa, telCa);
 }
 
+
 //reasignar cadetes
 void ReasinarPed()
 {
 
-    System.Console.WriteLine("numero de Cadete Anterior: ");
-    Interfaz.ShowListCadetes();
+    System.Console.WriteLine("numero ID de Cadete Anterior: ");
+    Cadeteria.ShowListCadetes();
     System.Console.WriteLine();
     int cadAnterior = int.Parse(ReadLine());
 
     System.Console.WriteLine("ingrese el id del pedido: ");
-    Interfaz.ShowListPedidos();
+    Cadeteria.ShowListPedidos();
     int pedPar = int.Parse(ReadLine());
     System.Console.WriteLine("numero del nuevo Cadete: ");
 
-    Interfaz.ShowListCadetes(cadAnterior);
+    Cadeteria.ShowListCadetes(cadAnterior);
     int cadPar = int.Parse(ReadLine());
-    bool respuesta = view.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
+    bool respuesta = cadeteria.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
     while (!respuesta)
     {
         System.Console.WriteLine("ID del  Cadete anterior correcto: ");
-        Interfaz.ShowListCadetes();
+        Cadeteria.ShowListCadetes();
         cadAnterior = int.Parse(ReadLine());
 
         System.Console.WriteLine("ingresa un ID del pedido correcto:");
-        Interfaz.ShowListPedidos();
+        Cadeteria.ShowListPedidos();
         pedPar = int.Parse(ReadLine());
 
         System.Console.WriteLine("ingresa un ID del nuevo cadete: ");
-        Interfaz.ShowListCadetes();
+        Cadeteria.ShowListCadetes();
         cadPar = int.Parse(ReadLine());
 
-        respuesta = view.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
+        respuesta = cadeteria.ResignarPedidoAcadete(cadPar, pedPar, cadAnterior);
     }
 
     System.Console.WriteLine("el pedido se asigno correctamente");
-    Interfaz.ShowCadete(cadPar);
+    Cadeteria.ShowCadete(cadPar);
 
 }
+
 
 // cambiar estado
 void CambiarEstado()
 {
     System.Console.WriteLine("ingrese el id del pedido ");
-    Interfaz.ShowListPedidos();
+    Cadeteria.ShowListPedidos();
     int idPedido = int.Parse(ReadLine());
-    bool respuesta = view.CambiarEstadoPedido(idPedido);
+    bool respuesta = cadeteria.CambiarEstadoPedido(idPedido);
     while (!respuesta)
     {
         System.Console.WriteLine("ingresa in id de pedido correcto");
-        Interfaz.ShowListPedidos();
+        Cadeteria.ShowListPedidos();
         idPedido = int.Parse(ReadLine());
-        respuesta = view.CambiarEstadoPedido(idPedido);
+        respuesta = cadeteria.CambiarEstadoPedido(idPedido);
     }
-    Interfaz.ShowPedido(idPedido);
+    Cadeteria.ShowPedido(idPedido);
 }
 
 //jornal cadete
 void JornalCadete()
 {
     WriteLine("Ingrese el ID del cadete");
-    Interfaz.ShowListCadetes();
+    Cadeteria.ShowListCadetes();
     int idCadete = int.Parse(ReadLine());
-    var (res, cobro) = view.JornalCa(idCadete);
+    var (res, cobro) = cadeteria.JornalCobrar(idCadete);
     while (!res)
     {
         System.Console.WriteLine("ingresa in id de Cadete correcto");
-        Interfaz.ShowListCadetes();
+        Cadeteria.ShowListCadetes();
         idCadete = int.Parse(ReadLine());
-        (res, cobro) = view.JornalCa(idCadete);
+        (res, cobro) = cadeteria.JornalCobrar(idCadete);
     }
     System.Console.WriteLine("jornal del cadete: " + cobro);
 
 }
 
+
 //informe cadete
 void InformeCadete(){
-    view.InformeCadete();
+    cadeteria.InformeCadete();
  }
 
 

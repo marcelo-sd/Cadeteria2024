@@ -30,28 +30,5 @@ public class Cadetes
 
     
 
-
-    public double JornalACobrar(List<Pedidos> listaPedidosPara)
-    {
-        double jornal = listaPedidosPara.Count() * 500;
-        return jornal;
-
-    }
-
-
-/*     public void CantidadEnvios(Cadetes ca)
-    {
-        int pedidosRealizados = 0;
-        if (ca.ListaPedidos != null && ca.ListaPedidos.Any())
-        {
-            pedidosRealizados = ca.ListaPedidos.Count(p => p.Estado == Estado.terminado);
-            System.Console.WriteLine("cantidad de pedidos reaizados: " + pedidosRealizados);
-        }
-        System.Console.WriteLine("este cadete no tiene una lista de pedidos vacios");
-    }
-
-    public void MontoGanado(Cadetes ca){
-       System.Console.WriteLine("monto ganado: "+(ca.ListaPedidos.Count()*500));
-    } */
     
 }
