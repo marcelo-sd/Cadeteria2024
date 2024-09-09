@@ -27,8 +27,8 @@ public class Cadeteria
     }
     public Cadeteria()
     {
-        ListaPedidos = new List<Pedidos>();
-        ListaCadetes = new List<Cadetes>();
+        ListaPedidos = AccesoDatos.LeerDatosPedidos();
+        ListaCadetes = AccesoDatos.LeerDatosCadetes();
 
     }
 
@@ -57,17 +57,15 @@ public class Cadeteria
 
 
 
-    /* System.Console.WriteLine("Promedio: "+(ListaPedidos.Count()/ListaCadetes.Count()*100)); */
-
 
 
     //dar de alta un pedido
     public List<Pedidos> DarDeAltaPedido(string obs, string nombreCli, string direccionCli, string telefonoCli, string datosRefCli)
     {
-
-        PedidoA = new Pedidos(obs, nombreCli, direccionCli, telefonoCli, datosRefCli, ListaPedidos.Count());
+        PedidoA = new Pedidos(obs, nombreCli, direccionCli, telefonoCli, datosRefCli);
 
         ListaPedidos.Add(PedidoA);
+        PedidoA.GuardarPedido();
         return ListaPedidos;
 
     }
@@ -83,9 +81,10 @@ public class Cadeteria
         {
             if (p.Cliente.Nombre == nombreCliente)
             {
-                PedidoA = new Pedidos(obs, nombreCliente, ListaPedidos);
+                PedidoA = new Pedidos(obs, nombreCliente);
                 ListaPedidos.Add(PedidoA);
                 res = true;
+                PedidoA.GuardarPedido();
                 return (ListaPedidos, res);
             }
         }
@@ -99,8 +98,8 @@ public class Cadeteria
         return (ListaPedidos, res);
     }
 
-    //asignar cadete a pedido
 
+    //asignar cadete a pedido
     public bool AsignarCadeteAPedido(int idCadete, int idPedido)
     {
         bool respuesta = true;
@@ -118,16 +117,20 @@ public class Cadeteria
             return false;
         }
         pedidoEncontrado.Cadete = cadeteEncontrado;
+        Pedidos.ModificarPedidosEstado(idCadete,Estado.enProceso);
+        Pedidos.AsignarPedidoAcadete(idCadete,idPedido);
         return true;
     }
+
 
 
     //añadir cadete
     public void AnadirCadete(string nombreCa, string direCa, string telCa)
 
     {
-        cadete = new Cadetes(nombreCa, direCa, telCa, ListaCadetes);
+        cadete = new Cadetes(nombreCa, direCa, telCa);
         ListaCadetes.Add(cadete);
+        cadete.GuardarCadeteCsv();
         ShowListCadetes();
     }
 

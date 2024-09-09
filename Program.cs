@@ -205,6 +205,13 @@ void InformeCadete(){
     cadeteria.InformeCadete();
  }
 
+//mostrar lista de cadetes
+void MostrarListaCadete()
+{
+    Cadeteria.ShowListCadetes();
+}
+
+
 
 bool continuar = true;
 while (continuar)
@@ -217,7 +224,8 @@ while (continuar)
     WriteLine("5_ Reasignar pedido");
     WriteLine("6_ Jornal cadete");
     WriteLine("7_ Informe cadete");
-    WriteLine("8_ Salir");
+    WriteLine("8_ lista de cadete");
+    WriteLine("9_ Salir");
     WriteLine("Selecciona una opción");
     string? opcion = ReadLine();
 
@@ -250,7 +258,10 @@ while (continuar)
         case "7":
         InformeCadete();
             break;
-        case "8":
+              case "8":
+        MostrarListaCadete();
+            break;
+        case "9":
             System.Console.WriteLine("bye, bye");
             continuar = false;
 

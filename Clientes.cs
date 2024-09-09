@@ -36,7 +36,7 @@ public class Clientes
    public void GuardarCliente(string nombre,string direccion, string telefono, string datoDeREferencia)
    {
 
-      string path = "C:\\Users\\diazs\\Desktop\\taller-2024\\tps\\taller-001\\clientes.csv";
+         string path = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\clientes.csv";
 
 try
      {
