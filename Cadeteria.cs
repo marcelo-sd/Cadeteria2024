@@ -2,12 +2,15 @@
 
 
 
+using System.Data.Common;
+
 public class Cadeteria
 {
     string Nombre;
     string Telefono;
 
     public Pedidos PedidoA;
+    public static Pedidos PedidoB = new Pedidos();
     public Cadetes cadete;
 
 
@@ -18,17 +21,19 @@ public class Cadeteria
 
 
 
-    public Cadeteria(string nombre, string telefono, List<Cadetes> listaCadetesParametro, List<Pedidos> listaPedidosParametro)
+    public Cadeteria(string nombre, string telefono)
     {
         Nombre = nombre;
         Telefono = telefono;
-        ListaCadetes = listaCadetesParametro;
-        ListaPedidos = listaPedidosParametro;
+
     }
+
+
+
     public Cadeteria()
     {
-        ListaPedidos = AccesoDatos.LeerDatosPedidos();
-        ListaCadetes = AccesoDatos.LeerDatosCadetes();
+        ListaPedidos = AccesoDatos.LeerDatosPedidos() ?? new List<Pedidos>();
+        ListaCadetes = AccesoDatos.LeerDatosCadetes() ?? new List<Cadetes>();
 
     }
 
@@ -73,15 +78,19 @@ public class Cadeteria
 
 
     //si el cliente esta registrado anteriormente
-    public (List<Pedidos>, bool) DarDeAltaPedido(string obs, string nombreCliente)
+    public (List<Pedidos>, bool) DarDeAltaPedido(string obs, string nombreCli)
     {
         bool res = false;
+        Guid IDCliente = Pedidos.ListaClientes
+            .Where(cli => cli.Nombre == nombreCli)
+            .Select(cli => cli.Id)
+            .FirstOrDefault();
 
         foreach (var p in ListaPedidos)
         {
-            if (p.Cliente.Nombre == nombreCliente)
+            if (p.Cliente.Id ==IDCliente)
             {
-                PedidoA = new Pedidos(obs, nombreCliente);
+                PedidoA = new Pedidos(obs, nombreCli);
                 ListaPedidos.Add(PedidoA);
                 res = true;
                 PedidoA.GuardarPedido();
@@ -117,8 +126,9 @@ public class Cadeteria
             return false;
         }
         pedidoEncontrado.Cadete = cadeteEncontrado;
-        Pedidos.ModificarPedidosEstado(idCadete,Estado.enProceso);
-        Pedidos.AsignarPedidoAcadete(idCadete,idPedido);
+
+        Pedidos.AsignarPedidoAcadete(idCadete, idPedido);
+        Pedidos.ModificarPedidosEstado(idPedido, Estado.enProceso);
         return true;
     }
 
@@ -166,7 +176,9 @@ public class Cadeteria
             return false;
         }
 
+
         pedido.Cadete = nuevoCadete;
+        Pedidos.AsignarPedidoAcadete(pedido.Nro, nuevoCadete.Id);
 
         System.Console.WriteLine("El pedido ha sido reasignado correctamente.");
 
@@ -183,6 +195,7 @@ public class Cadeteria
             {
                 p.Estado = Estado.terminado;
                 System.Console.WriteLine("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
+                Pedidos.ModificarPedidosEstado(p.Nro, Estado.terminado);
                 res = true;
                 break; // Salimos del bucle ya que encontramos el pedido
             }
@@ -213,11 +226,11 @@ public class Cadeteria
         {
             System.Console.WriteLine("id del pedido: " + i.Nro);
             System.Console.WriteLine("Observacion: " + i.Obs);
-            System.Console.WriteLine("Nombre del Cliente: " + i.Cliente.Nombre);
+            System.Console.WriteLine("ID del Cliente: " + i.Cliente.Id);
 
             if (i.Cadete != null)
             {
-                Console.WriteLine("Cadete asignado: " + i.Cadete.Nombre);
+                Console.WriteLine("Cadete asignado ID: " + i.Cadete.Id);
             }
             else
             {
@@ -229,6 +242,19 @@ public class Cadeteria
             System.Console.WriteLine();
         }
     }
+
+
+    public static void ShowListaClientes()
+    {
+        PedidoB.MostrarListaClientes();
+    }
+
+
+
+
+
+
+
 
 
     //mostrar lista de cadetes
@@ -297,7 +323,7 @@ public class Cadeteria
         {
             if (c.Id == idCadete)
             {
-                System.Console.WriteLine("ID: " + c.Id);
+                System.Console.WriteLine("ID del cadete: " + c.Id);
                 System.Console.WriteLine("nombre de Cadete: " + c.Nombre);
                 var pedidosDelCadete = ListaPedidos
        .Where(p => p.Cadete != null && p.Cadete.Id == c.Id)
@@ -330,8 +356,8 @@ public class Cadeteria
                 System.Console.WriteLine("Pedido numero: " + p.Nro);
                 System.Console.WriteLine("Observacion: " + p.Obs);
                 System.Console.WriteLine("Estado de pedido: " + p.Estado);
-                System.Console.WriteLine("cliente: " + p.Cliente.Nombre);
-                System.Console.WriteLine("Cadete asignado: " + (p.Cadete.Nombre ?? "null"));
+                System.Console.WriteLine("cliente ID: " + p.Cliente.Id ?? "NULL");
+                System.Console.WriteLine("Cadete asignado ID: " + (p.Cadete.Id.ToString() ?? "NULL"));
 
             }
         }

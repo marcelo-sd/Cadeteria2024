@@ -1,2 +1,7 @@
-1,push,1ffbc1b8-2ac8-4541-8371-f53665bdf3f4,enProceso,2
-2,cuscu,1ffbc1b8-2ac8-4541-8371-f53665bdf3f4,comenzado,00
+
+1,asado,34beef10-b21e-41f8-8503-1302c58a6f11,terminado,4
+2,sandia,245f26cf-3c28-4710-9c39-a43f25153c9a,comenzado,00
+3,ensalada,245f26cf-3c28-4710-9c39-a43f25153c9a,terminado,4
+4,mates,419d1ba6-0653-4b05-83b0-b17fe16dd2c2,terminado,4
+5,guiso,ecb56842-076a-4088-ad77-8650280aaa40,enProceso,2
+6,zapallo,419d1ba6-0653-4b05-83b0-b17fe16dd2c2,comenzado,00

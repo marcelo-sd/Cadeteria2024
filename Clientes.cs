@@ -17,7 +17,7 @@ public class Clientes
       Direccion = direccion;
       Telefono = telefono;
       DatosReferenciaDrieccion = datosRef;
-      //GuardarCliente(nombre,direccion,telefono,datosRef);
+   GuardarCliente(nombre,direccion,telefono,datosRef);
    }
    public Clientes()
    {

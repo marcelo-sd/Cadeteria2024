@@ -18,7 +18,7 @@ ForegroundColor = ConsoleColor.Green; // Cambia el color del texto a rojo
 
 
 
-Cadeteria cadeteria=new Cadeteria();
+Cadeteria cadeteria = new Cadeteria();
 
 //aqui creamos pedidos y creamos clientes
 //recordamos que como pedidos y clientes tienen una relacion de composicion solo se va a crear un cliente cuando se cree primero un  pedido
@@ -98,7 +98,7 @@ void AsignarPedidos()
         System.Console.WriteLine("ingresea un id del pedido correcto");
         Cadeteria.ShowListPedidos();
         pedPar = int.Parse(ReadLine());
-        respuesta =cadeteria.AsignarCadeteAPedido(cadPar, pedPar);
+        respuesta = cadeteria.AsignarCadeteAPedido(cadPar, pedPar);
     }
 
 
@@ -167,7 +167,7 @@ void ReasinarPed()
 // cambiar estado
 void CambiarEstado()
 {
-    System.Console.WriteLine("ingrese el id del pedido ");
+    System.Console.WriteLine("ingrese el Numero del pedido: ");
     Cadeteria.ShowListPedidos();
     int idPedido = int.Parse(ReadLine());
     bool respuesta = cadeteria.CambiarEstadoPedido(idPedido);
@@ -201,14 +201,28 @@ void JornalCadete()
 
 
 //informe cadete
-void InformeCadete(){
+void InformeCadete()
+{
     cadeteria.InformeCadete();
- }
+}
 
 //mostrar lista de cadetes
 void MostrarListaCadete()
 {
     Cadeteria.ShowListCadetes();
+    System.Console.WriteLine();
+    Cadeteria.ShowListaClientes();
+    System.Console.WriteLine();
+    Cadeteria.ShowListPedidos();
+
+}
+
+//elegir file
+void ElegirFile(){
+    System.Console.WriteLine("Quieres trabajar con 1_CSV o 2_JSON");
+    int res =Convert.ToInt32(ReadLine());
+    
+
 }
 
 
@@ -225,7 +239,8 @@ while (continuar)
     WriteLine("6_ Jornal cadete");
     WriteLine("7_ Informe cadete");
     WriteLine("8_ lista de cadete");
-    WriteLine("9_ Salir");
+    WriteLine("9_ Elegir tipo de archivo a trabajar");
+    WriteLine("10_ Salir");
     WriteLine("Selecciona una opción");
     string? opcion = ReadLine();
 
@@ -256,12 +271,15 @@ while (continuar)
             JornalCadete();
             break;
         case "7":
-        InformeCadete();
+            InformeCadete();
             break;
-              case "8":
-        MostrarListaCadete();
+        case "8":
+            MostrarListaCadete();
             break;
         case "9":
+            ElegirFile();
+            break;
+        case "10":
             System.Console.WriteLine("bye, bye");
             continuar = false;
 

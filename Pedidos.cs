@@ -17,28 +17,48 @@ public class Pedidos
     public string Obs = string.Empty;
     public Clientes Cliente = new Clientes();
     public Estado Estado;
+    //aqui vamos a contener la lista de clientes
     public static List<Clientes> ListaClientes { get; set; } = new List<Clientes>();
     public Cadetes? Cadete;
-    //aqui vamos a contener la lista de clientes
 
     static string rutaPedidos_cvs = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\pedidos.csv";
 
 
-    //este ctor es para cuando el cliente no esta registrado 
-    public Pedidos(string obs, string nombreCli, string direccionCli, string telefonoCli, string datosRefCli)
-    {
-        Nro = (AccesoDatos.LectorIds(rutaPedidos_cvs)) + 1;
-        Obs = obs;
-        Estado = Estado.comenzado;
-        Cliente = new Clientes(nombreCli, direccionCli, telefonoCli, datosRefCli);
-        ListaClientes.Add(Cliente);
-
-    }
-
+    
     public Pedidos()
     {
-
+        ListaClientes = AccesoDatos.LeerDatosClientes();
     }
+
+
+    //este ctor es para cuando el cliente no esta registrado 
+public Pedidos(string obs, string nombreCli, string direccionCli, string telefonoCli, string datosRefCli)
+{
+    Nro = (AccesoDatos.LectorIds(rutaPedidos_cvs)) + 1;
+    Obs = obs;
+    Estado = Estado.comenzado;
+
+    // Verificar que los parámetros no sean nulos o vacíos
+    if (string.IsNullOrEmpty(nombreCli) || string.IsNullOrEmpty(direccionCli) || string.IsNullOrEmpty(telefonoCli) || string.IsNullOrEmpty(datosRefCli))
+    {
+        throw new ArgumentException("Los parámetros del cliente no pueden ser nulos o vacíos.");
+    }
+
+    Cliente = new Clientes(nombreCli, direccionCli, telefonoCli, datosRefCli);
+
+    // Verificar que Cliente no sea nulo antes de agregarlo a la lista
+    if (Cliente != null)
+    {
+        ListaClientes.Add(Cliente);
+    }
+    else
+    {
+        throw new NullReferenceException("El objeto Cliente no ha sido inicializado correctamente.");
+    }
+}
+
+
+
     //este es para los pedidos que si contienen cliente registrados
     public Pedidos(string obs, string parNombre)
     {
@@ -80,51 +100,85 @@ public class Pedidos
             sw.WriteLine(linea);
         }
     }
-    
+
 
     // Método para modificar el estado de un pedido en el archivo CSV
-    public static void ModificarPedidosEstado( int nroPedido, Estado nuevoEstado)
+   public static void ModificarPedidosEstado(int nroPedido, Estado nuevoEstado)
+{
+    string[] lineas = File.ReadAllLines(rutaPedidos_cvs);
+    for (int i = 0; i < lineas.Length; i++)
     {
-        string[] lineas = File.ReadAllLines(rutaPedidos_cvs);
-        for (int i = 0; i < lineas.Length; i++)
+        string[] valores = lineas[i].Split(',');
+
+        if (int.TryParse(valores[0], out int nro))
         {
-            string[] valores = lineas[i].Split(',');
-            if (Convert.ToInt32(valores[0]) == nroPedido)
+            if (nro == nroPedido)
             {
                 valores[3] = nuevoEstado.ToString();
                 lineas[i] = string.Join(",", valores);
+                System.Console.WriteLine($"estado modificado a: {nuevoEstado}");
                 break;
             }
         }
-        File.WriteAllLines(rutaPedidos_cvs, lineas);
+        
     }
-    //metodo para borrar pedido
-
-    //asignar pedido a cadete
-public  static void AsignarPedidoAcadete(int idCadete,int idPedido){
-    string[] lineas = File.ReadAllLines(rutaPedidos_cvs);
-      for (int i = 0; i < lineas.Length; i++)
-        {
-            string[] valores = lineas[i].Split(',');
-            if (Convert.ToInt32(valores[0]) == idCadete)
-            {
-                valores[4] = idPedido.ToString();
-                lineas[i] = string.Join(",", valores);
-                break;
-            }
-        }
-                File.WriteAllLines(rutaPedidos_cvs, lineas);
-
-
-
-
+    File.WriteAllLines(rutaPedidos_cvs, lineas);
 }
 
 
+    //asignar pedido a cadete
+ public static void AsignarPedidoAcadete(int idCadete, int idPedido)
+{
+    string[] lineas = File.ReadAllLines(rutaPedidos_cvs);
+    for (int i = 0; i < lineas.Length; i++)
+    {
+        string[] valores = lineas[i].Split(',');
+
+        if (int.TryParse(valores[0], out int idPedidoActual))
+        {
+            if (idPedidoActual == idPedido)
+            {
+                valores[4] = idCadete.ToString();
+                lineas[i] = string.Join(",", valores);
+                System.Console.WriteLine("asignado");
+                break;
+            }
+        }
+    }
+    File.WriteAllLines(rutaPedidos_cvs, lineas);
+}
 
 
+public   void MostrarListaClientes(){
+    System.Console.WriteLine("lista de clientes actaul");
+    foreach(var cli in ListaClientes){
+        System.Console.WriteLine($"id:{cli.Id}, Nombre: {cli.Nombre}, telefono: {cli.Telefono}, direccion: {cli.Direccion}  ");
+    }
+}
 
 
+//reasignar pedido a cadete
+public  static void ReasignarPedidoaCadete(int nroPedido,int idCadete){
+    string[] lineas = File.ReadAllLines(rutaPedidos_cvs);
+    for (int i = 0; i < lineas.Length; i++)
+    {
+        string[] valores = lineas[i].Split(',');
+
+        if (int.TryParse(valores[0], out int nro))
+        {
+            if (nro == nroPedido)
+            {
+                valores[4] = idCadete.ToString();
+                lineas[i] = string.Join(",", valores);
+                System.Console.WriteLine($"pedido Reasigando a cadete: {idCadete}");
+                break;
+            }
+        }
+        
+    }
+    File.WriteAllLines(rutaPedidos_cvs, lineas);
+
+}
 
 
 
