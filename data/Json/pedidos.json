@@ -1,0 +1,58 @@
+[
+  {
+    "Nro": 1,
+    "Obs": "asado",
+    "ClienteId": "34beef10-b21e-41f8-8503-1302c58a6f11",
+    "Estado": "terminado",
+    "CadeteId": 4
+  },
+  {
+    "Nro": 2,
+    "Obs": "sandia",
+    "ClienteId": "245f26cf-3c28-4710-9c39-a43f25153c9a",
+    "Estado": "enProceso",
+    "CadeteId": 4
+  },
+  {
+    "Nro": 3,
+    "Obs": "ensalada",
+    "ClienteId": "245f26cf-3c28-4710-9c39-a43f25153c9a",
+    "Estado": "terminado",
+    "CadeteId": 4
+  },
+  {
+    "Nro": 4,
+    "Obs": "mates",
+    "ClienteId": "419d1ba6-0653-4b05-83b0-b17fe16dd2c2",
+    "Estado": "terminado",
+    "CadeteId": 4
+  },
+  {
+    "Nro": 5,
+    "Obs": "guiso",
+    "ClienteId": "ecb56842-076a-4088-ad77-8650280aaa40",
+    "Estado": "enProceso",
+    "CadeteId": 2
+  },
+  {
+    "Nro": 6,
+    "Obs": "zapallo",
+    "ClienteId": "419d1ba6-0653-4b05-83b0-b17fe16dd2c2",
+    "Estado": "terminado",
+    "CadeteId": 3
+  },
+  {
+    "Nro": 7,
+    "Obs": "sangria",
+    "ClienteId": "68aa9409-008b-40a0-9f64-c8450d7ddf42",
+    "Estado": "enProceso",
+    "CadeteId": 3
+  },
+  {
+    "Nro": 8,
+    "Obs": "crema",
+    "ClienteId": "68aa9409-008b-40a0-9f64-c8450d7ddf42",
+    "Estado": "comenzado",
+    "CadeteId": 0
+  }
+]

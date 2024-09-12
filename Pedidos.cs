@@ -27,7 +27,7 @@ public class Pedidos
     
     public Pedidos()
     {
-        ListaClientes = AccesoDatos.LeerDatosClientes();
+        ListaClientes = AccesoCsv.LeerDatosClientesC();
     }
 
 
@@ -90,16 +90,42 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
 
 
 
-    // Método para guardar el pedido en un archivo CSV
-    public void GuardarPedido()
+    // Método para guardar el pedido en un archivo CSV/////////////
+ public void GuardarPedido()
+{
+    // Asegúrate de que la ruta del archivo sea correcta y accesible
+    if (string.IsNullOrEmpty(rutaPedidos_cvs))
+    {
+        throw new ArgumentException("La ruta del archivo no puede ser nula o vacía.");
+    }
+
+    // Usa un bloque try-catch para manejar posibles excepciones
+    try
     {
         using (StreamWriter sw = new StreamWriter(rutaPedidos_cvs, true))
         {
             string cadeteNombre = Cadete != null ? Cadete.Nombre : "00";
             string linea = $"{Nro},{Obs},{Cliente.Id},{Estado},{cadeteNombre}";
+
+            // Escribe la línea en el archivo
             sw.WriteLine(linea);
+
+            // Línea de depuración
+            Console.WriteLine($"Escribiendo línea: {linea}");
         }
     }
+    catch (Exception ex)
+    {
+        // Maneja excepciones (por ejemplo, registra el error)
+        Console.WriteLine($"Ocurrió un error al escribir en el archivo: {ex.Message}");
+    }
+}
+
+
+
+
+
+
 
 
     // Método para modificar el estado de un pedido en el archivo CSV
@@ -116,6 +142,9 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
             {
                 valores[3] = nuevoEstado.ToString();
                 lineas[i] = string.Join(",", valores);
+
+                AccesoJson.ModificarEstadosDePedidosJson(nro,nuevoEstado.ToString(), int.Parse(valores[4]) );
+
                 System.Console.WriteLine($"estado modificado a: {nuevoEstado}");
                 break;
             }
@@ -124,6 +153,11 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
     }
     File.WriteAllLines(rutaPedidos_cvs, lineas);
 }
+
+
+
+
+
 
 
     //asignar pedido a cadete
@@ -149,12 +183,20 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
 }
 
 
+
+
 public   void MostrarListaClientes(){
     System.Console.WriteLine("lista de clientes actaul");
     foreach(var cli in ListaClientes){
+        System.Console.WriteLine("*********************************************");
         System.Console.WriteLine($"id:{cli.Id}, Nombre: {cli.Nombre}, telefono: {cli.Telefono}, direccion: {cli.Direccion}  ");
+          System.Console.WriteLine("*********************************************");
     }
 }
+
+
+
+
 
 
 //reasignar pedido a cadete

@@ -13,6 +13,8 @@ public class Cadeteria
     public static Pedidos PedidoB = new Pedidos();
     public Cadetes cadete;
 
+    public AccesoJson ac;
+
 
     public static List<Pedidos> ListaPedidos;
     // aqui vamos a manejar la lista de pedidos
@@ -32,33 +34,19 @@ public class Cadeteria
 
     public Cadeteria()
     {
-        ListaPedidos = AccesoDatos.LeerDatosPedidos() ?? new List<Pedidos>();
-        ListaCadetes = AccesoDatos.LeerDatosCadetes() ?? new List<Cadetes>();
+      ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
+
+
+       // ListaPedidos = AccesoJson.LeerDatosPedidosJ();
+        ListaCadetes = AccesoCsv.LeerDatosCadetesC() ?? new List<Cadetes>();
+        ac=new AccesoJson();
 
     }
 
 
 
 
-    //jornal de cada cadete
-    public (bool, double) JornalCobrar(int idCadete)
-    {
-        bool res = true;
-        double cobro = 0;
-
-        var contador = ListaPedidos.Count(p => p.Cadete != null && p.Cadete.Id == idCadete && p.Estado == Estado.terminado);
-        if (contador == null)
-        {
-            res = false;
-            return (res, cobro);
-
-        }
-        cobro = contador * 500;
-
-        return (res, cobro);
-
-    }
-
+   
 
 
 
@@ -71,6 +59,7 @@ public class Cadeteria
 
         ListaPedidos.Add(PedidoA);
         PedidoA.GuardarPedido();
+        ac.GuardarPedidoJson( PedidoA.Nro,obs,PedidoA.Cliente.Id,Estado.comenzado,null);
         return ListaPedidos;
 
     }
@@ -94,6 +83,7 @@ public class Cadeteria
                 ListaPedidos.Add(PedidoA);
                 res = true;
                 PedidoA.GuardarPedido();
+                 ac.GuardarPedidoJson( PedidoA.Nro,obs,PedidoA.Cliente.Id,Estado.comenzado,null);
                 return (ListaPedidos, res);
             }
         }
@@ -196,6 +186,7 @@ public class Cadeteria
                 p.Estado = Estado.terminado;
                 System.Console.WriteLine("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
                 Pedidos.ModificarPedidosEstado(p.Nro, Estado.terminado);
+             AccesoJson.ModificarEstadosDePedidosJson(p.Nro,Estado.terminado.ToString(),null);
                 res = true;
                 break; // Salimos del bucle ya que encontramos el pedido
             }
@@ -222,6 +213,7 @@ public class Cadeteria
     {
         System.Console.WriteLine();
         System.Console.WriteLine("Lista de pedidos Actual: ");
+        System.Console.WriteLine("/////////////////////////////////////////////");
         foreach (var i in ListaPedidos)
         {
             System.Console.WriteLine("id del pedido: " + i.Nro);
@@ -239,7 +231,7 @@ public class Cadeteria
 
             System.Console.WriteLine("Estado: " + i.Estado);
 
-            System.Console.WriteLine();
+        System.Console.WriteLine("******************************************");
         }
     }
 
@@ -247,6 +239,25 @@ public class Cadeteria
     public static void ShowListaClientes()
     {
         PedidoB.MostrarListaClientes();
+    }
+
+ //jornal de cada cadete
+    public (bool, double) JornalCobrar(int idCadete)
+    {
+        bool res = true;
+        double cobro = 0;
+
+        var contador = ListaPedidos.Count(p => p.Cadete != null && p.Cadete.Id == idCadete && p.Estado == Estado.terminado);
+        if (contador == null)
+        {
+            res = false;
+            return (res, cobro);
+
+        }
+        cobro = contador * 500;
+
+        return (res, cobro);
+
     }
 
 
@@ -262,6 +273,7 @@ public class Cadeteria
     {
 
         System.Console.WriteLine("Esta es la lista de cadetes actual:");
+        System.Console.WriteLine("/////////////////////////////////////////////");
         foreach (var i in ListaCadetes)
         {
             System.Console.WriteLine("id Del Cadete: " + i.Id);
@@ -278,14 +290,16 @@ public class Cadeteria
                 System.Console.WriteLine($"Nro:  {pedido.Nro}, Obs:  {pedido.Obs}");
             }
 
-            System.Console.WriteLine();
+            System.Console.WriteLine("******************************************");
         }
     }
 
     // esta es pra que muestre los cadetes que no estan dentro del parametro Cad(es el cadete anterior)
     public static void ShowListCadetes(int cadAnterior)
     {
+       
         System.Console.WriteLine("Esta es la lista de cadetes actual sin el cadete anterior seleccionado");
+          System.Console.WriteLine("//////////////////////////////////////////////");
         foreach (var i in ListaCadetes)
         {
             if (i.Id != cadAnterior)
@@ -308,6 +322,7 @@ public class Cadeteria
 
 
             }
+             System.Console.WriteLine("******************************************");
 
         }
     }
@@ -318,9 +333,10 @@ public class Cadeteria
     //mostrar cadete solo
     public static void ShowCadete(int idCadete)
     {
-        System.Console.WriteLine("cadete:");
+             System.Console.WriteLine("******************************************");  
         foreach (var c in ListaCadetes)
         {
+
             if (c.Id == idCadete)
             {
                 System.Console.WriteLine("ID del cadete: " + c.Id);
@@ -340,14 +356,16 @@ public class Cadeteria
 
 
             }
+             System.Console.WriteLine("******************************************");
         }
+          
     }
 
     //mostrar pedido solo 
 
     public static void ShowPedido(int idPedido)
     {
-        System.Console.WriteLine("Pedido:");
+        System.Console.WriteLine("******************************************");
         foreach (var p in ListaPedidos)
         {
             if (p.Nro == idPedido)
@@ -360,7 +378,9 @@ public class Cadeteria
                 System.Console.WriteLine("Cadete asignado ID: " + (p.Cadete.Id.ToString() ?? "NULL"));
 
             }
+             System.Console.WriteLine("******************************************");
         }
+               
     }
 
 
