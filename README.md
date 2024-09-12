@@ -2,19 +2,16 @@
 
 app console to create and hamdle orders.
 
-# tp=001
+# tp=003
 
-A) Debe agregar los métodos faltantes a las clases en función de sus respuestas del
-punto anterior.
-B) Los datos de la cadetería y de sus cadetes deberán ser cargados
-automáticamente a partir de 2 archivos csv, uno por cada entidad.
-C) El sistema posee una interfaz de consola para gestión de pedidos para realizar las
-siguientes operaciones:
-a) dar de alta pedidos
-b) asignarlos a cadetes
-c) cambiarlos de estado
-d) reasignar el pedido a otro cadete.
-D) Mostrar un informe de pedidos al finalizar la jornada que incluya el monto ganado
-y la cantidad de envíos de cada cadete y el total. Muestre también la cantidad de envíos promedio por cadete.
+) Migración del Sistema para Cadeteria
+El cliente presentó como nuevo requisito la posibilidad de acceder via web, por lo que se
+necesita adaptar el código actual para independizarlo de la interfaz de usuario, como requisito
+previo a la migración a un servidor web.
+Para poder cumplir con dicho requisito se propuso las siguientes modificaciones:
+● Modifique todos los métodos públicos de la clase cadetería de manera tal que ésta
+sólo reciba datos primitivos (datos del tipo string, double,int, etc)
+● Elimine todas las llamadas a métodos vinculados a la interfaz de usuario que
+pudiera tener la cadetería
 
 
