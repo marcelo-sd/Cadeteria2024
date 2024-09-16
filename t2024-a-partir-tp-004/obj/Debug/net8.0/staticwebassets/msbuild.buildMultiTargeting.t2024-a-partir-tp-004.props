@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\t2024-a-partir-tp-004.props" />
+</Project>
