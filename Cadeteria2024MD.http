@@ -1,0 +1,6 @@
+@Cadeteria2024MD_HostAddress = http://localhost:5080
+
+GET {{Cadeteria2024MD_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

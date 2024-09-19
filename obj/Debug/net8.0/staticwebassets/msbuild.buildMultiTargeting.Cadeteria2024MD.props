@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Cadeteria2024MD.props" />
+</Project>
