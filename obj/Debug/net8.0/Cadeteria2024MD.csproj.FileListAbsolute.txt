@@ -35,3 +35,4 @@ C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\obj\Debug\net8.0\
 C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\obj\Debug\net8.0\Cadeteria2024MD.pdb
 C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\obj\Debug\net8.0\Cadeteria2024MD.genruntimeconfig.cache
 C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\obj\Debug\net8.0\ref\Cadeteria2024MD.dll
+C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\bin\Debug\net8.0\AutoMapper.dll

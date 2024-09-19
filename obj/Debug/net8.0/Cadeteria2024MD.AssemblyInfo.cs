@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cadeteria2024MD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+199bee939098f955fcabbbf721238be512ca2d89")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cadeteria2024MD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cadeteria2024MD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
