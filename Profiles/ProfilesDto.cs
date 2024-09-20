@@ -5,9 +5,11 @@ namespace Cadeteria2024MD.Profiles
 {
     public class ProfilesDto : Profile
     {
-        protected ProfilesDto()
+       
+        public ProfilesDto()
         {
             CreateMap<Pedidos,PedidosDTO> ().ReverseMap();
+            CreateMap<Clientes,ClientesDTO> ().ReverseMap();
         }
     }
 }

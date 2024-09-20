@@ -2,13 +2,13 @@
 public class AccesoDatos
 {
 
-    protected static string rutaCadeteFile = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\cadetes.csv";
+    protected static string rutaCadeteFile = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\cadetes.csv";
 
-    protected static string rutaPedidos_csv = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\pedidos.csv";
+    protected static string rutaPedidos_csv = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\pedidos.csv";
 
-    protected static string rutaClientes_csv = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\clientes.csv";
+    protected static string rutaClientes_csv = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\clientes.csv";
 
-      protected static string rutaPedidos_json = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\Json\pedidos.json";
+      protected static string rutaPedidos_json = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\Json\pedidos.json";
 
     public AccesoDatos()
     {

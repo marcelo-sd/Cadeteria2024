@@ -2,6 +2,7 @@
 
 
 
+using System;
 using System.Data.Common;
 public class Cadeteria
 {
@@ -20,6 +21,7 @@ public class Cadeteria
     public static List<Cadetes> ListaCadetes;
     // aqui vamos a manejar la lista de pedidos
 
+   private readonly ILogger<Cadeteria> _logger;
 
 
     public Cadeteria(string nombre, string telefono)
@@ -31,35 +33,46 @@ public class Cadeteria
 
 
 
+    public Cadeteria( ILogger<Cadeteria> logger)
+    {
+        _logger = logger;
+        ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
+        // ListaPedidos = AccesoJson.LeerDatosPedidosJ();
+        ListaCadetes = AccesoCsv.LeerDatosCadetesC() ?? new List<Cadetes>();
+        ac = new AccesoJson();
+
+
+    }
+
     public Cadeteria()
     {
-      ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
-
-
-       // ListaPedidos = AccesoJson.LeerDatosPedidosJ();
+        ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
+        // ListaPedidos = AccesoJson.LeerDatosPedidosJ();
         ListaCadetes = AccesoCsv.LeerDatosCadetesC() ?? new List<Cadetes>();
-        ac=new AccesoJson();
+        ac = new AccesoJson();
 
     }
 
 
 
 
-   
 
 
 
 
 
     //dar de alta un pedido
-    public List<Pedidos> DarDeAltaPedido(string obs, string nombreCli, string direccionCli, string telefonoCli, string datosRefCli)
+    public bool DarDeAltaPedido(string obs, string nombreCli, string direccionCli, string telefonoCli, string datosRefCli)
     {
+        bool result = false;
         PedidoA = new Pedidos(obs, nombreCli, direccionCli, telefonoCli, datosRefCli);
 
-        ListaPedidos.Add(PedidoA);
-        PedidoA.GuardarPedido();
+           ListaPedidos.Add(PedidoA);
+
+         result=  PedidoA.GuardarPedido();
         ac.GuardarPedidoJson( PedidoA.Nro,obs,PedidoA.Cliente.Id,Estado.comenzado,null);
-        return ListaPedidos;
+        return result;
+
 
     }
 
@@ -101,23 +114,24 @@ public class Cadeteria
     public bool AsignarCadeteAPedido(int idCadete, int idPedido)
     {
         bool respuesta = true;
-        var pedidoEncontrado = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        Pedidos ?  pedidoEncontrado  = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
         if (pedidoEncontrado == null)
         {
-            System.Console.WriteLine("Pedido no encontrado");
+            _logger.LogWarning("Pedido no encontrado: {IdPedido}", idPedido);
             return false;
 
         }
-        var cadeteEncontrado = ListaCadetes.FirstOrDefault(c => c.Id == idCadete);
+        Cadetes ? cadeteEncontrado = ListaCadetes.FirstOrDefault(c => c.Id == idCadete);
         if (cadeteEncontrado == null)
         {
-            System.Console.WriteLine("cadete no encontrado");
+            _logger.LogWarning("cadete no encontrado");
             return false;
         }
         pedidoEncontrado.Cadete = cadeteEncontrado;
 
         Pedidos.AsignarPedidoAcadete(idCadete, idPedido);
         Pedidos.ModificarPedidosEstado(idPedido, Estado.enProceso);
+
         return true;
     }
 
@@ -139,40 +153,43 @@ public class Cadeteria
     {
         if (ListaPedidos == null || ListaCadetes == null || !ListaPedidos.Any() || !ListaCadetes.Any())
         {
-            System.Console.WriteLine("Error: Lista de pedidos o cadetes está vacía o no inicializada.");
+            _logger.LogWarning(" Lista de pedidos o cadetes está vacía o no inicializada.");
             return false;
         }
 
         var pedido = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
         if (pedido == null)
         {
-            System.Console.WriteLine("Error: Pedido no encontrado.");
+            _logger.LogWarning("Error: Pedido no encontrado.");
             return false;
         }
 
-        var cadeteAnterior = ListaCadetes.FirstOrDefault(pe => pe.Id == cadAnterior);
+        var cadeteAnterior = ListaCadetes.FirstOrDefault(ca => ca.Id == cadAnterior);
+
         var nuevoCadete = ListaCadetes.FirstOrDefault(c => c.Id == idCadet);
 
         if (cadeteAnterior == null)
         {
-            System.Console.WriteLine("Error: Cadete anterior no encontrado.");
+            _logger.LogWarning("Error: Cadete anterior no encontrado.");
             return false;
         }
 
         if (nuevoCadete == null)
         {
-            System.Console.WriteLine("Error: Nuevo cadete no encontrado.");
+            _logger.LogWarning("Error: Nuevo cadete no encontrado.");
             return false;
         }
 
 
         pedido.Cadete = nuevoCadete;
-        Pedidos.AsignarPedidoAcadete(pedido.Nro, nuevoCadete.Id);
+        Pedidos.AsignarPedidoAcadete(nuevoCadete.Id,pedido.Nro);
+        AccesoJson.ModificarEstadosDePedidosJson(pedido.Nro,Estado.enProceso.ToString(),nuevoCadete.Id);
 
-        System.Console.WriteLine("El pedido ha sido reasignado correctamente.");
+        _logger.LogInformation("El pedido ha sido reasignado correctamente.");
 
         return true;
     }
+
 
     //cambiar estado de pedido
     public bool CambiarEstadoPedido(int idPedido)
@@ -183,7 +200,8 @@ public class Cadeteria
             if (p.Nro == idPedido)
             {
                 p.Estado = Estado.terminado;
-                System.Console.WriteLine("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
+                _logger.LogInformation("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
+               
                 Pedidos.ModificarPedidosEstado(p.Nro, Estado.terminado);
              AccesoJson.ModificarEstadosDePedidosJson(p.Nro,Estado.terminado.ToString(),null);
                 res = true;

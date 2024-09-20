@@ -8,6 +8,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Configurar el logging
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders(); // Limpia los proveedores de logging predeterminados
+    loggingBuilder.AddConsole(); // Agrega el proveedor de logging en consola
+    loggingBuilder.AddDebug(); // Agrega el proveedor de logging en debug
+});
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

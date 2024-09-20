@@ -1,6 +1,59 @@
 [
   {
     "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "AsignarCadeteAPedidos",
+    "RelativePath": "AsiganarCadete",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idcadete",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "idPedido",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "CambiarEstadoPedido",
+    "RelativePath": "CambiarEstadoPedido",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idPedido",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "AgregarPedido",
+    "RelativePath": "GuardarPedido",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ped",
+        "Type": "Cadeteria2024MD.Models.DTOs.PedidosDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
     "Method": "GetCadetes",
     "RelativePath": "ListaCadetes",
     "HttpMethod": "GET",
@@ -38,5 +91,31 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "ReasignarCadete",
+    "RelativePath": "ReasignarCadete",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idPedido",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "idcadete",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "idCadAnterior",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

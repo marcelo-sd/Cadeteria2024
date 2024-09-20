@@ -1,9 +1,10 @@
-1,asado,34beef10-b21e-41f8-8503-1302c58a6f11,terminado,4
-2,sandia,245f26cf-3c28-4710-9c39-a43f25153c9a,enProceso,4
-3,ensalada,245f26cf-3c28-4710-9c39-a43f25153c9a,terminado,4
-4,mates,419d1ba6-0653-4b05-83b0-b17fe16dd2c2,terminado,4
+1,asado,34beef10-b21e-41f8-8503-1302c58a6f11,enProceso,2
+2,sandia,245f26cf-3c28-4710-9c39-a43f25153c9a,terminado,4
+3,ensalada,245f26cf-3c28-4710-9c39-a43f25153c9a,enProceso,4
+4,mates,419d1ba6-0653-4b05-83b0-b17fe16dd2c2,enProceso,4
 5,guiso,ecb56842-076a-4088-ad77-8650280aaa40,enProceso,2
 6,zapallo,419d1ba6-0653-4b05-83b0-b17fe16dd2c2,terminado,3
 7,sangria,68aa9409-008b-40a0-9f64-c8450d7ddf42,enProceso,3
 
-8,crema,68aa9409-008b-40a0-9f64-c8450d7ddf42,comenzado,00
+8,crema,68aa9409-008b-40a0-9f64-c8450d7ddf42,enProceso,5
+9,Cruda,cfb56916-27ab-4f9a-87f1-72c3cb1e5285,comenzado,00

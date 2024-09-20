@@ -22,8 +22,8 @@ public class Pedidos
     public static List<Clientes> ListaClientes { get; set; } = new List<Clientes>();
     public Cadetes? Cadete;
 
-    static string rutaPedidos_cvs = @"C:\Users\diazs\Desktop\taller-2024\taller-2024-tps\data\pedidos.csv";
-
+    static string rutaPedidos_cvs = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\pedidos.csv";
+    
 
     
     public Pedidos()
@@ -92,8 +92,9 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
 
 
     // Método para guardar el pedido en un archivo CSV/////////////
- public void GuardarPedido()
+ public bool GuardarPedido()
 {
+        bool resultado = false;
     // Asegúrate de que la ruta del archivo sea correcta y accesible
     if (string.IsNullOrEmpty(rutaPedidos_cvs))
     {
@@ -110,15 +111,13 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
 
             // Escribe la línea en el archivo
             sw.WriteLine(linea);
-
-            // Línea de depuración
-            Console.WriteLine($"Escribiendo línea: {linea}");
+                return resultado=true;
         }
     }
     catch (Exception ex)
     {
-        // Maneja excepciones (por ejemplo, registra el error)
-        Console.WriteLine($"Ocurrió un error al escribir en el archivo: {ex.Message}");
+            throw new ArgumentException("No se ha podidos guardar el pedido");
+            return resultado=false;
     }
 }
 
@@ -146,7 +145,6 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
 
                 AccesoJson.ModificarEstadosDePedidosJson(nro,nuevoEstado.ToString(), int.Parse(valores[4]) );
 
-                System.Console.WriteLine($"estado modificado a: {nuevoEstado}");
                 break;
             }
         }
@@ -164,6 +162,7 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
     //asignar pedido a cadete
  public static void AsignarPedidoAcadete(int idCadete, int idPedido)
 {
+
     string[] lineas = File.ReadAllLines(rutaPedidos_cvs);
     for (int i = 0; i < lineas.Length; i++)
     {
@@ -175,7 +174,6 @@ public Pedidos(string obs, string nombreCli, string direccionCli, string telefon
             {
                 valores[4] = idCadete.ToString();
                 lineas[i] = string.Join(",", valores);
-                System.Console.WriteLine("asignado");
                 break;
             }
         }
