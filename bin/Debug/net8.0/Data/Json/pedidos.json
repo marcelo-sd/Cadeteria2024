@@ -4,7 +4,7 @@
     "Obs": "asado",
     "ClienteId": "34beef10-b21e-41f8-8503-1302c58a6f11",
     "Estado": "enProceso",
-    "CadeteId": 4
+    "CadeteId": 2
   },
   {
     "Nro": 2,
@@ -59,6 +59,13 @@
     "Nro": 9,
     "Obs": "Cruda",
     "ClienteId": "cfb56916-27ab-4f9a-87f1-72c3cb1e5285",
+    "Estado": "comenzado",
+    "CadeteId": 0
+  },
+  {
+    "Nro": 10,
+    "Obs": "Observaciones del pedido",
+    "ClienteId": "f0a60502-3610-42e6-a216-b184b55969e6",
     "Estado": "comenzado",
     "CadeteId": 0
   }

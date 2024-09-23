@@ -54,6 +54,32 @@
   },
   {
     "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "AgregarPedidoConCliRe",
+    "RelativePath": "GuardarPedidoConClienteRegistrado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ped",
+        "Type": "Cadeteria2024MD.Models.DTOs.PedidosDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "Informe",
+    "RelativePath": "Informe",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
     "Method": "GetCadetes",
     "RelativePath": "ListaCadetes",
     "HttpMethod": "GET",

@@ -10,10 +10,14 @@ public class Cadeteria
     string Telefono;
 
     public Pedidos PedidoA;
+
     public static Pedidos PedidoB = new Pedidos();
+
     public Cadetes cadete;
 
     public AccesoJson ac;
+
+
 
 
     public static List<Pedidos> ListaPedidos;
@@ -21,7 +25,7 @@ public class Cadeteria
     public static List<Cadetes> ListaCadetes;
     // aqui vamos a manejar la lista de pedidos
 
-   private readonly ILogger<Cadeteria> _logger;
+    private readonly ILogger<Cadeteria> _logger;
 
 
     public Cadeteria(string nombre, string telefono)
@@ -33,7 +37,7 @@ public class Cadeteria
 
 
 
-    public Cadeteria( ILogger<Cadeteria> logger)
+    public Cadeteria(ILogger<Cadeteria> logger)
     {
         _logger = logger;
         ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
@@ -67,10 +71,10 @@ public class Cadeteria
         bool result = false;
         PedidoA = new Pedidos(obs, nombreCli, direccionCli, telefonoCli, datosRefCli);
 
-           ListaPedidos.Add(PedidoA);
+        ListaPedidos.Add(PedidoA);
 
-         result=  PedidoA.GuardarPedido();
-        ac.GuardarPedidoJson( PedidoA.Nro,obs,PedidoA.Cliente.Id,Estado.comenzado,null);
+        result = PedidoA.GuardarPedido();
+        ac.GuardarPedidoJson(PedidoA.Nro, obs, PedidoA.Cliente.Id, Estado.comenzado, null);
         return result;
 
 
@@ -79,49 +83,50 @@ public class Cadeteria
 
 
     //si el cliente esta registrado anteriormente
-    public (List<Pedidos>, bool) DarDeAltaPedido(string obs, string nombreCli)
+    public  bool DarDeAltaPedido(string obs, string nombreCli)
     {
         bool res = false;
-        Guid IDCliente = Pedidos.ListaClientes
+        Guid IdCliente = Pedidos.ListaClientes
             .Where(cli => cli.Nombre == nombreCli)
             .Select(cli => cli.Id)
             .FirstOrDefault();
 
         foreach (var p in ListaPedidos)
         {
-            if (p.Cliente.Id ==IDCliente)
+            if (p.Cliente.Id == IdCliente)
             {
                 PedidoA = new Pedidos(obs, nombreCli);
                 ListaPedidos.Add(PedidoA);
-                res = true;
                 PedidoA.GuardarPedido();
-                 ac.GuardarPedidoJson( PedidoA.Nro,obs,PedidoA.Cliente.Id,Estado.comenzado,null);
-                return (ListaPedidos, res);
+                ac.GuardarPedidoJson(PedidoA.Nro, obs, PedidoA.Cliente.Id, Estado.comenzado, null);
+                return  res =true;
             }
         }
 
         // Si no se encontró el cliente en la lista
         if (!res)
         {
-            System.Console.WriteLine("este cliente no esta registrado ");
+            _logger.LogInformation("Este cliente no esta registrado");
         }
 
-        return (ListaPedidos, res);
+        return  res;
     }
+
+
 
 
     //asignar cadete a pedido
     public bool AsignarCadeteAPedido(int idCadete, int idPedido)
     {
         bool respuesta = true;
-        Pedidos ?  pedidoEncontrado  = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
+        Pedidos? pedidoEncontrado = ListaPedidos.FirstOrDefault(p => p.Nro == idPedido);
         if (pedidoEncontrado == null)
         {
             _logger.LogWarning("Pedido no encontrado: {IdPedido}", idPedido);
             return false;
 
         }
-        Cadetes ? cadeteEncontrado = ListaCadetes.FirstOrDefault(c => c.Id == idCadete);
+        Cadetes? cadeteEncontrado = ListaCadetes.FirstOrDefault(c => c.Id == idCadete);
         if (cadeteEncontrado == null)
         {
             _logger.LogWarning("cadete no encontrado");
@@ -144,7 +149,6 @@ public class Cadeteria
         cadete = new Cadetes(nombreCa, direCa, telCa);
         ListaCadetes.Add(cadete);
         cadete.GuardarCadeteCsv();
-        ShowListCadetes();
     }
 
 
@@ -182,8 +186,8 @@ public class Cadeteria
 
 
         pedido.Cadete = nuevoCadete;
-        Pedidos.AsignarPedidoAcadete(nuevoCadete.Id,pedido.Nro);
-        AccesoJson.ModificarEstadosDePedidosJson(pedido.Nro,Estado.enProceso.ToString(),nuevoCadete.Id);
+        Pedidos.AsignarPedidoAcadete(nuevoCadete.Id, pedido.Nro);
+        AccesoJson.ModificarEstadosDePedidosJson(pedido.Nro, Estado.enProceso.ToString(), nuevoCadete.Id);
 
         _logger.LogInformation("El pedido ha sido reasignado correctamente.");
 
@@ -201,9 +205,9 @@ public class Cadeteria
             {
                 p.Estado = Estado.terminado;
                 _logger.LogInformation("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
-               
+
                 Pedidos.ModificarPedidosEstado(p.Nro, Estado.terminado);
-             AccesoJson.ModificarEstadosDePedidosJson(p.Nro,Estado.terminado.ToString(),null);
+                AccesoJson.ModificarEstadosDePedidosJson(p.Nro, Estado.terminado.ToString(), null);
                 res = true;
                 break; // Salimos del bucle ya que encontramos el pedido
             }
@@ -211,54 +215,9 @@ public class Cadeteria
         return res;
     }
 
+   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //lista de pedidos
-    public static void ShowListPedidos()
-    {
-        System.Console.WriteLine();
-        System.Console.WriteLine("Lista de pedidos Actual: ");
-        System.Console.WriteLine("/////////////////////////////////////////////");
-        foreach (var i in ListaPedidos)
-        {
-            System.Console.WriteLine("id del pedido: " + i.Nro);
-            System.Console.WriteLine("Observacion: " + i.Obs);
-            System.Console.WriteLine("ID del Cliente: " + i.Cliente.Id);
-
-            if (i.Cadete != null)
-            {
-                Console.WriteLine("Cadete asignado ID: " + i.Cadete.Id);
-            }
-            else
-            {
-                Console.WriteLine("Cadete asignado: null");
-            }
-
-            System.Console.WriteLine("Estado: " + i.Estado);
-
-        System.Console.WriteLine("******************************************");
-        }
-    }
-
-
-    public static void ShowListaClientes()
-    {
-        PedidoB.MostrarListaClientes();
-    }
-
- //jornal de cada cadete
+    //jornal de cada cadete
     public (bool, double) JornalCobrar(int idCadete)
     {
         bool res = true;
@@ -280,149 +239,33 @@ public class Cadeteria
 
 
 
+ 
+    //informe integral de la cadeteria
 
-
-
-
-
-    //mostrar lista de cadetes
-    public static void ShowListCadetes()
+    public object InformeIntegral()
     {
+        int cantPedidos=ListaPedidos.Count();
+        int pedidosConCadete = ListaPedidos.Where(p => p.Cadete != null).Count();
+        int PeddosTerminados=ListaPedidos.Where(p=>p.Estado == Estado.terminado).Count();
+        int PedidosEnProceso=ListaPedidos.Where(p=>p.Estado==Estado.enProceso).Count();
+        double TotalDinero = PeddosTerminados * 500;
+        int PedidosSinAsignar = ListaPedidos.Where(p => p.Cadete == null).Count();
+        int CantidadDeCadetes=ListaCadetes.Count();
 
-        System.Console.WriteLine("Esta es la lista de cadetes actual:");
-        System.Console.WriteLine("/////////////////////////////////////////////");
-        foreach (var i in ListaCadetes)
+
+
+        return new
         {
-            System.Console.WriteLine("id Del Cadete: " + i.Id);
-            System.Console.WriteLine("nombre: " + i.Nombre);
-            System.Console.WriteLine("Telefono: " + i.Telefono);
-            var pedidosDelCadete = ListaPedidos
-            .Where(p => p.Cadete != null && p.Cadete.Id == i.Id)
-            .Select(p => new { p.Nro, p.Obs })
-            .ToList();
-
-            System.Console.WriteLine("Pedidos asignados a este cadete:");
-            foreach (var pedido in pedidosDelCadete)
-            {
-                System.Console.WriteLine($"Nro:  {pedido.Nro}, Obs:  {pedido.Obs}");
-            }
-
-            System.Console.WriteLine("******************************************");
-        }
-    }
-
-    // esta es pra que muestre los cadetes que no estan dentro del parametro Cad(es el cadete anterior)
-    public static void ShowListCadetes(int cadAnterior)
-    {
-       
-        System.Console.WriteLine("Esta es la lista de cadetes actual sin el cadete anterior seleccionado");
-          System.Console.WriteLine("//////////////////////////////////////////////");
-        foreach (var i in ListaCadetes)
-        {
-            if (i.Id != cadAnterior)
-            {
-                System.Console.WriteLine("id Del Cadete: " + i.Id);
-                System.Console.WriteLine("nombre: " + i.Nombre);
-                System.Console.WriteLine("Telefono: " + i.Telefono);
-                var pedidosDelCadete = ListaPedidos
-        .Where(p => p.Cadete != null && p.Cadete.Id == i.Id)
-        .Select(p => new { p.Nro, p.Obs })
-        .ToList();
-
-                System.Console.WriteLine("Pedidos asignados a este cadete:");
-                foreach (var pedido in pedidosDelCadete)
-                {
-                    System.Console.WriteLine($"Nro:  {pedido.Nro}, Obs:  {pedido.Obs}");
-                }
-
-                System.Console.WriteLine();
+            Pedidos = cantPedidos,
+            PedidosConCadetes = pedidosConCadete,
+            PedidosTerminados = PeddosTerminados,
+            PedidosEnProceso = PedidosEnProceso,
+            PedidosSinAsignar =PedidosSinAsignar,
+            TotalDinero = TotalDinero,
+            CantidadDeCadetes=CantidadDeCadetes,
 
 
-            }
-             System.Console.WriteLine("******************************************");
-
-        }
-    }
-
-
-
-
-    //mostrar cadete solo
-    public static void ShowCadete(int idCadete)
-    {
-             System.Console.WriteLine("******************************************");  
-        foreach (var c in ListaCadetes)
-        {
-
-            if (c.Id == idCadete)
-            {
-                System.Console.WriteLine("ID del cadete: " + c.Id);
-                System.Console.WriteLine("nombre de Cadete: " + c.Nombre);
-                var pedidosDelCadete = ListaPedidos
-       .Where(p => p.Cadete != null && p.Cadete.Id == c.Id)
-       .Select(p => new { p.Nro, p.Obs })
-       .ToList();
-
-                System.Console.WriteLine("Pedidos asignados a este cadete:");
-                foreach (var pedido in pedidosDelCadete)
-                {
-                    System.Console.WriteLine($"ID del pedido:  {pedido.Nro}, Obs:  {pedido.Obs}");
-                }
-
-                System.Console.WriteLine();
-
-
-            }
-             System.Console.WriteLine("******************************************");
-        }
-          
-    }
-
-    //mostrar pedido solo 
-
-    public static void ShowPedido(int idPedido)
-    {
-        System.Console.WriteLine("******************************************");
-        foreach (var p in ListaPedidos)
-        {
-            if (p.Nro == idPedido)
-            {
-
-                System.Console.WriteLine("Pedido numero: " + p.Nro);
-                System.Console.WriteLine("Observacion: " + p.Obs);
-                System.Console.WriteLine("Estado de pedido: " + p.Estado);
-                System.Console.WriteLine("cliente ID: " + p.Cliente.Id ?? "NULL");
-                System.Console.WriteLine("Cadete asignado ID: " + (p.Cadete.Id.ToString() ?? "NULL"));
-
-            }
-             System.Console.WriteLine("******************************************");
-        }
-               
-    }
-
-
-
-    //informe cadete
-    public void InformeCadete()
-    {
-        var pedidosConCadete = ListaPedidos.Where(p => p.Cadete != null).ToList();
-        foreach (var pe in pedidosConCadete)
-        {
-
-            System.Console.WriteLine("Nombre cadete" + pe.Cadete.Nombre);
-
-            int cantidadEnvios = ListaPedidos.Count(p => p.Cadete != null && p.Cadete.Id == pe.Cadete.Id && p.Estado == Estado.terminado);
-            Console.WriteLine($"Cantidad de envíos: {cantidadEnvios}");
-
-            int montoGanado = cantidadEnvios * 500;
-            Console.WriteLine($"Monto Ganado: {montoGanado}");
-
-            double promedioEnvios = (double)cantidadEnvios / pedidosConCadete.Count(p => p.Cadete.Id == pe.Cadete.Id);
-            Console.WriteLine($"Promedio de pedidos realizados por este cadete: {promedioEnvios:F2}");
-
-
-
-        }
+        };
     }
 
 

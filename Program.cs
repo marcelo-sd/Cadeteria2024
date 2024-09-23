@@ -1,8 +1,14 @@
+using Cadeteria2024MD.Models.DTOs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    // Agregar el convertidor personalizado para Icliente
+    options.JsonSerializerOptions.Converters.Add(new ClienteConvert());
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

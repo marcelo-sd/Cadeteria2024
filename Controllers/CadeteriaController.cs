@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cadeteria2024MD.Models.DTOs;
+using Cadeteria2024MD.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -37,29 +38,74 @@ namespace Cadeteria2024MD.Controllers
 
 
         [HttpGet("ListaCadetes")]
-        public ActionResult<List<Cadetes>> GetCadetes() {
+        public ActionResult<List<Cadetes>> GetCadetes()
+        {
             List<Cadetes> ListaCadetes = AccesoCsv.LeerDatosCadetesC();
             return Ok(ListaCadetes);
         }
 
+
+
+
         [HttpPost("GuardarPedido")]
-        public ActionResult AgregarPedido([FromBody]PedidosDTO ped)
+        public ActionResult AgregarPedido([FromBody] PedidosDTO ped)
         {
-            bool result = false;
-            if (ped == null) {
+            if (ped == null)
+            {
                 return BadRequest("El pedido es nulo");
             }
-            Cadeteria Cad= new Cadeteria();
 
-           result= Cad.DarDeAltaPedido(ped.Obs, ped.Cliente.Nombre, ped.Cliente.Direccion, 
-                ped.Cliente.Telefono, ped.Cliente.DatosReferenciaDrieccion);
+            Cadeteria Cad = new Cadeteria();
+
+            // Verifica si ped.Cliente es de la instancia ClientesDTO
+            if (ped.Cliente is ClientesDTO clienteCompleto)
+            {
+                bool result = Cad.DarDeAltaPedido(ped.Obs, clienteCompleto.Nombre, clienteCompleto.Direccion,
+                                                  clienteCompleto.Telefono, clienteCompleto.DatosReferenciaDrieccion);
+
+                if (result)
+                {
+                    return Ok("El pedido se guardó correctamente");
+                }
+                else
+                {
+                    return BadRequest("No se pudo guardar el pedido");
+                }
+            }
+            else
+            {
+                return BadRequest("El cliente no tiene la información completa.");
+            }
+        }
 
 
 
-            if (result) {
+        // result = Cad.DarDeAltaPedido(ped.Obs, ped.Cliente.Nombre, ped.Cliente.Direccion,
+        //                                 ped.Cliente.Telefono, ped.Cliente.DatosReferenciaDrieccion);
+
+
+
+        [HttpPost("GuardarPedidoConClienteRegistrado")]
+        public ActionResult AgregarPedidoConCliRe([FromBody] PedidosDTO ped)
+        {
+            bool result = false;
+
+            if (ped == null)
+            {
+                return BadRequest("El pedido es nulo");
+            }
+
+
+            result = _cade.DarDeAltaPedido(ped.Obs, ped.Cliente.Nombre);
+
+
+
+            if (result)
+            {
 
                 return Ok("el pedido se guardo correctamente");
-            } else 
+            }
+            else
             {
                 return BadRequest("no se pudo guardar el pedidos");
             }
@@ -69,10 +115,12 @@ namespace Cadeteria2024MD.Controllers
 
 
 
+
+
         [HttpPut("AsiganarCadete")]
-        public ActionResult AsignarCadeteAPedidos( int idcadete, int idPedido)
+        public ActionResult AsignarCadeteAPedidos(int idcadete, int idPedido)
         {
-            bool res=_cade.AsignarCadeteAPedido(idcadete, idPedido);
+            bool res = _cade.AsignarCadeteAPedido(idcadete, idPedido);
 
 
 
@@ -88,7 +136,7 @@ namespace Cadeteria2024MD.Controllers
 
 
         [HttpPut("CambiarEstadoPedido")]
-        public ActionResult CambiarEstadoPedido( int idPedido)
+        public ActionResult CambiarEstadoPedido(int idPedido)
         {
             bool res = _cade.CambiarEstadoPedido(idPedido);
 
@@ -107,9 +155,9 @@ namespace Cadeteria2024MD.Controllers
 
 
         [HttpPut("ReasignarCadete")]
-        public ActionResult ReasignarCadete(int idPedido,int idcadete,int idCadAnterior)
+        public ActionResult ReasignarCadete(int idPedido, int idcadete, int idCadAnterior)
         {
-            bool res = _cade.ResignarPedidoAcadete(idPedido,idcadete,idCadAnterior);
+            bool res = _cade.ResignarPedidoAcadete(idPedido, idcadete, idCadAnterior);
 
 
 
@@ -121,6 +169,18 @@ namespace Cadeteria2024MD.Controllers
             {
                 return BadRequest("no se pudo reasignar el pedido");
             }
+        }
+
+
+
+
+        [HttpGet("Informe")]
+        public ActionResult Informe()
+        {
+            var ObjRes = _cade.InformeIntegral();
+
+            return Ok(ObjRes);
+
         }
 
 
