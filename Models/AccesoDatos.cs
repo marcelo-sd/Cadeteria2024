@@ -8,7 +8,7 @@ public class AccesoDatos
 
     protected static string rutaClientes_csv = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\clientes.csv";
 
-      protected static string rutaPedidos_json = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\Json\pedidos.json";
+     protected static string rutaPedidos_json = @"C:\Users\diazs\Desktop\proyectos-c#\c#-vstudio\Cadeteria2024MD\Data\Json\pedidos.json";
 
     public AccesoDatos()
     {
@@ -56,7 +56,7 @@ public static int LectorIds(string rutaArchivo)
     catch (Exception ex)
     {
         // Manejar excepciones (por ejemplo, registrar el error)
-        Console.WriteLine($"Ocurrió un error al leer el archivo: {ex.Message}");
+        throw new ArgumentException("error",ex);
     }
 
     return ultimoId;

@@ -68,5 +68,26 @@
     "ClienteId": "f0a60502-3610-42e6-a216-b184b55969e6",
     "Estado": "comenzado",
     "CadeteId": 0
+  },
+  {
+    "Nro": 11,
+    "Obs": "chicken",
+    "ClienteId": "cfb56916-27ab-4f9a-87f1-72c3cb1e5285",
+    "Estado": "comenzado",
+    "CadeteId": 0
+  },
+  {
+    "Nro": 12,
+    "Obs": "tarta",
+    "ClienteId": "40a8939a-1c3b-4a89-81db-d0b5d22f32c3",
+    "Estado": "comenzado",
+    "CadeteId": 0
+  },
+  {
+    "Nro": 13,
+    "Obs": "pizzeta",
+    "ClienteId": "1b18c222-fba0-4243-8f40-9067d33a5041",
+    "Estado": "comenzado",
+    "CadeteId": 0
   }
 ]

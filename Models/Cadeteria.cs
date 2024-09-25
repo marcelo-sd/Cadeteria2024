@@ -2,6 +2,7 @@
 
 
 
+using Cadeteria2024MD.Models.Accesos_ClasesDeaDatos;
 using System;
 using System.Data.Common;
 public class Cadeteria
@@ -15,7 +16,7 @@ public class Cadeteria
 
     public Cadetes cadete;
 
-    public AccesoJson ac;
+
 
 
 
@@ -24,6 +25,8 @@ public class Cadeteria
     // aqui vamos a manejar la lista de pedidos
     public static List<Cadetes> ListaCadetes;
     // aqui vamos a manejar la lista de pedidos
+    AccesoDatosPedidos acDped;
+    AccesoDatosCadetes acDcad;
 
     private readonly ILogger<Cadeteria> _logger;
 
@@ -39,21 +42,28 @@ public class Cadeteria
 
     public Cadeteria(ILogger<Cadeteria> logger)
     {
+        acDped = new AccesoDatosPedidos();
+        acDcad=new AccesoDatosCadetes();
+
         _logger = logger;
-        ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
+
+        ListaPedidos = acDped.Obtener() ?? new List<Pedidos>();
         // ListaPedidos = AccesoJson.LeerDatosPedidosJ();
-        ListaCadetes = AccesoCsv.LeerDatosCadetesC() ?? new List<Cadetes>();
-        ac = new AccesoJson();
+
+        ListaCadetes = acDcad.ObtenerListaCadetes() ?? new List<Cadetes>();
+        //ListaCadetes = AccesoCsv.LeerDatosCadetesC() ?? new List<Cadetes>();
 
 
     }
 
     public Cadeteria()
     {
-        ListaPedidos = AccesoCsv.LeerDatosPedidosC() ?? new List<Pedidos>();
+        acDped=new AccesoDatosPedidos();
+        acDcad= new AccesoDatosCadetes();
+
+        ListaPedidos = acDped.Obtener() ?? new List<Pedidos>();
         // ListaPedidos = AccesoJson.LeerDatosPedidosJ();
-        ListaCadetes = AccesoCsv.LeerDatosCadetesC() ?? new List<Cadetes>();
-        ac = new AccesoJson();
+        ListaCadetes = acDcad.ObtenerListaCadetes() ?? new List<Cadetes>();
 
     }
 
@@ -74,7 +84,8 @@ public class Cadeteria
         ListaPedidos.Add(PedidoA);
 
         result = PedidoA.GuardarPedido();
-        ac.GuardarPedidoJson(PedidoA.Nro, obs, PedidoA.Cliente.Id, Estado.comenzado, null);
+
+        acDped.GuardarPedidoJson(PedidoA.Nro, obs, PedidoA.Cliente.Id, Estado.comenzado, null);
         return result;
 
 
@@ -98,7 +109,7 @@ public class Cadeteria
                 PedidoA = new Pedidos(obs, nombreCli);
                 ListaPedidos.Add(PedidoA);
                 PedidoA.GuardarPedido();
-                ac.GuardarPedidoJson(PedidoA.Nro, obs, PedidoA.Cliente.Id, Estado.comenzado, null);
+                acDped.GuardarPedidoJson(PedidoA.Nro, obs, PedidoA.Cliente.Id, Estado.comenzado, null);
                 return  res =true;
             }
         }
@@ -187,7 +198,7 @@ public class Cadeteria
 
         pedido.Cadete = nuevoCadete;
         Pedidos.AsignarPedidoAcadete(nuevoCadete.Id, pedido.Nro);
-        AccesoJson.ModificarEstadosDePedidosJson(pedido.Nro, Estado.enProceso.ToString(), nuevoCadete.Id);
+        acDped.ModificarEstadosDePedidosJson(pedido.Nro, Estado.enProceso.ToString(), nuevoCadete.Id);
 
         _logger.LogInformation("El pedido ha sido reasignado correctamente.");
 
@@ -207,7 +218,7 @@ public class Cadeteria
                 _logger.LogInformation("El estado de pedido fue cambiado correctamente a 'TERMINADO'");
 
                 Pedidos.ModificarPedidosEstado(p.Nro, Estado.terminado);
-                AccesoJson.ModificarEstadosDePedidosJson(p.Nro, Estado.terminado.ToString(), null);
+                acDped.ModificarEstadosDePedidosJson(p.Nro, Estado.terminado.ToString(), null);
                 res = true;
                 break; // Salimos del bucle ya que encontramos el pedido
             }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cadeteria2024MD.Models.Accesos_ClasesDeaDatos;
 using Cadeteria2024MD.Models.DTOs;
 using Cadeteria2024MD.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +25,10 @@ namespace Cadeteria2024MD.Controllers
         [HttpGet("ListaPedidos")]
         public ActionResult<List<PedidoIntermedio>> GetPedidos()
         {
+            AccesoDatosPedidos acDped=new AccesoDatosPedidos();
             // Aquí deberías obtener la lista de pedidos desde tu fuente de datos
-            List<PedidoIntermedio> listaPedidos = AccesoJson.LeerDatosPedidosIntermedioJ();
+            List<PedidoIntermedio> listaPedidos = acDped.LeerDatosPedidosIntermedioJ();
+
 
             if (listaPedidos == null || listaPedidos.Count == 0)
             {
@@ -40,10 +43,18 @@ namespace Cadeteria2024MD.Controllers
         [HttpGet("ListaCadetes")]
         public ActionResult<List<Cadetes>> GetCadetes()
         {
-            List<Cadetes> ListaCadetes = AccesoCsv.LeerDatosCadetesC();
+            AccesoDatosCadetes cad = new AccesoDatosCadetes();
+            List<Cadetes> ListaCadetes = cad.ObtenerListaCadetes();
             return Ok(ListaCadetes);
         }
 
+        [HttpGet("ListaClientes")]
+        public ActionResult<List<Cadetes>> GetClientes()
+        {
+            AccesoDatosClientes cli = new AccesoDatosClientes();
+            List<Clientes> ListaClientes = cli.ObtenerListaClientes();
+            return Ok(ListaClientes);
+        }
 
 
 

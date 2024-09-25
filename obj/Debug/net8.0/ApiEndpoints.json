@@ -100,6 +100,26 @@
   },
   {
     "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
+    "Method": "GetClientes",
+    "RelativePath": "ListaClientes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Cadetes, Cadeteria2024MD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Cadeteria2024MD.Controllers.CadeteriaController",
     "Method": "GetPedidos",
     "RelativePath": "ListaPedidos",
     "HttpMethod": "GET",
@@ -108,7 +128,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[PedidoIntermedio, Cadeteria2024MD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[Cadeteria2024MD.Models.Accesos_ClasesDeaDatos.PedidoIntermedio, Cadeteria2024MD, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
